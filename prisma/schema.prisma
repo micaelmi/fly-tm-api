@@ -25,7 +25,7 @@ model User {
 
   level_id      Int
   game_style_id Int
-  club_id       Int
+  club_id       String
   user_type_id  Int
   hand_grip_id  Int
 
@@ -140,7 +140,7 @@ model Movement {
 }
 
 model Club {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   name           String
   description    String
   logo_url       String
@@ -169,19 +169,19 @@ model Club {
 }
 
 model Event {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   name           String
   date           DateTime
   show_date      DateTime
   hide_date      DateTime
-  cep            String
-  state          String
-  city           String
-  neighborhood   String
-  street         String
+  cep            String?
+  state          String?
+  city           String?
+  neighborhood   String?
+  street         String?
   address_number Int?
   complement     String?
-  maps_url       String
+  maps_url       String?
   level          String
   description    String
   image_url      String
@@ -198,7 +198,7 @@ model Event {
 }
 
 model MatchHistory {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   player1      String
   player2      String
   better_of    Int
@@ -222,7 +222,7 @@ model GameHistory {
   created_at     DateTime
   updated_at     DateTime
 
-  match_history_id Int
+  match_history_id String
 
   match_history MatchHistory @relation(fields: [match_history_id], references: [id])
 
@@ -230,7 +230,7 @@ model GameHistory {
 }
 
 model CreditTransaction {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(uuid())
   action      CreditActions
   amount      Int
   description String
@@ -244,7 +244,7 @@ model CreditTransaction {
 }
 
 model Contact {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   title       String
   description String
   status      Status

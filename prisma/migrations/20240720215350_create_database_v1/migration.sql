@@ -22,7 +22,7 @@ CREATE TABLE "users" (
     "image_url" TEXT,
     "level_id" INTEGER NOT NULL,
     "game_style_id" INTEGER NOT NULL,
-    "club_id" INTEGER NOT NULL,
+    "club_id" TEXT NOT NULL,
     "user_type_id" INTEGER NOT NULL,
     "hand_grip_id" INTEGER NOT NULL,
 
@@ -108,7 +108,7 @@ CREATE TABLE "movements" (
 
 -- CreateTable
 CREATE TABLE "clubs" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "logo_url" TEXT NOT NULL,
@@ -136,19 +136,19 @@ CREATE TABLE "clubs" (
 
 -- CreateTable
 CREATE TABLE "events" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "show_date" TIMESTAMP(3) NOT NULL,
     "hide_date" TIMESTAMP(3) NOT NULL,
-    "cep" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "neighborhood" TEXT NOT NULL,
-    "street" TEXT NOT NULL,
+    "cep" TEXT,
+    "state" TEXT,
+    "city" TEXT,
+    "neighborhood" TEXT,
+    "street" TEXT,
     "address_number" INTEGER,
     "complement" TEXT,
-    "maps_url" TEXT NOT NULL,
+    "maps_url" TEXT,
     "level" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "image_url" TEXT NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE "events" (
 
 -- CreateTable
 CREATE TABLE "match_history" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "player1" TEXT NOT NULL,
     "player2" TEXT NOT NULL,
     "better_of" INTEGER NOT NULL,
@@ -183,14 +183,14 @@ CREATE TABLE "game_history" (
     "game_number" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "match_history_id" INTEGER NOT NULL,
+    "match_history_id" TEXT NOT NULL,
 
     CONSTRAINT "game_history_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "credit_transactions" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "action" "CreditActions" NOT NULL,
     "amount" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
@@ -202,7 +202,7 @@ CREATE TABLE "credit_transactions" (
 
 -- CreateTable
 CREATE TABLE "contacts" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "status" "Status" NOT NULL,
