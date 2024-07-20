@@ -6,3 +6,317 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id            Int      @id @default(autoincrement())
+  name          String
+  username      String   @unique
+  email         String   @unique
+  password      String
+  created_at    DateTime
+  updated_at    DateTime
+  bio           String?
+  training_days Int      @default(0)
+  credits       Int      @default(0)
+  state         String?
+  city          String?
+  instagram     String?
+  image_url     String?
+
+  level_id      Int
+  game_style_id Int
+  club_id       Int
+  user_type_id  Int
+  hand_grip_id  Int
+
+  level      Level     @relation(fields: [level_id], references: [id])
+  game_style GameStyle @relation(fields: [game_style_id], references: [id])
+  club       Club?     @relation(fields: [club_id], references: [id])
+  user_type  UserType  @relation(fields: [user_type_id], references: [id])
+  hand_grip  HandGrip  @relation(fields: [hand_grip_id], references: [id])
+
+  trainings           Training[]
+  strategies          Strategy[]
+  Event               Event[]
+  match_history       MatchHistory[]
+  credit_transactions CreditTransaction[]
+  contacts            Contact[]
+
+  @@map("users")
+}
+
+model Token {
+  id         Int      @id @default(autoincrement())
+  number     Int
+  user_email String
+  expiration DateTime
+  status     Status   @default(active)
+  created_at DateTime
+  updated_at DateTime
+
+  @@map("tokens")
+}
+
+model Training {
+  id         String   @id @default(uuid())
+  title      String
+  time       Int
+  icon_url   String
+  created_at DateTime
+  updated_at DateTime
+
+  user_id  Int
+  level_id Int
+
+  user  User  @relation(fields: [user_id], references: [id])
+  level Level @relation(fields: [level_id], references: [id])
+
+  training_items TrainingItem[]
+
+  @@map("trainings")
+}
+
+model Strategy {
+  id           String   @id @default(uuid())
+  title        String
+  how_it_works String
+  icon_url     String
+  created_at   DateTime
+  updated_at   DateTime
+
+  user_id  Int
+  level_id Int
+
+  user  User  @relation(fields: [user_id], references: [id])
+  level Level @relation(fields: [level_id], references: [id])
+
+  strategy_items StrategyItem[]
+
+  @@map("strategies")
+}
+
+model StrategyItem {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  strategy_id String
+  movement_id Int
+
+  strategy Strategy @relation(fields: [strategy_id], references: [id])
+  movement Movement @relation(fields: [movement_id], references: [id])
+
+  @@map("strategy_items")
+}
+
+model TrainingItem {
+  id            Int    @id @default(autoincrement())
+  counting_mode String
+  reps          Int
+  time          Int
+  queue         Int
+  comments      String
+
+  training_id String
+  movement_id Int
+
+  training Training @relation(fields: [training_id], references: [id])
+  movement Movement @relation(fields: [movement_id], references: [id])
+
+  @@map("training_items")
+}
+
+model Movement {
+  id           Int    @id @default(autoincrement())
+  name         String
+  description  String
+  average_time Int
+  video_url    String
+  image_url    String
+
+  training_items TrainingItem[]
+  strategy_items StrategyItem[]
+
+  @@map("movements")
+}
+
+model Club {
+  id             Int      @id @default(autoincrement())
+  name           String
+  description    String
+  logo_url       String
+  background     String
+  owner_username String
+  email          String
+  phone          String?
+  instagram      String?
+  other_contacts String?
+  schedule       String
+  prices         String
+  cep            String
+  state          String
+  city           String
+  neighborhood   String
+  street         String
+  address_number Int?
+  complement     String?
+  maps_url       String
+  created_at     DateTime
+  updated_at     DateTime
+
+  users User[]
+
+  @@map("clubs")
+}
+
+model Event {
+  id             Int      @id @default(autoincrement())
+  name           String
+  date           DateTime
+  show_date      DateTime
+  hide_date      DateTime
+  cep            String
+  state          String
+  city           String
+  neighborhood   String
+  street         String
+  address_number Int?
+  complement     String?
+  maps_url       String
+  level          String
+  description    String
+  image_url      String
+  price          String
+  status         Status
+  created_at     DateTime
+  updated_at     DateTime
+
+  user_id Int
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("events")
+}
+
+model MatchHistory {
+  id           Int      @id @default(autoincrement())
+  player1      String
+  player2      String
+  better_of    Int
+  date         DateTime
+  sets_player1 Int
+  sets_player2 Int
+
+  user_id Int
+
+  user        User          @relation(fields: [user_id], references: [id])
+  GameHistory GameHistory[]
+
+  @@map("match_history")
+}
+
+model GameHistory {
+  id             Int      @id @default(autoincrement())
+  points_player1 Int
+  points_player2 Int
+  game_number    Int
+  created_at     DateTime
+  updated_at     DateTime
+
+  match_history_id Int
+
+  match_history MatchHistory @relation(fields: [match_history_id], references: [id])
+
+  @@map("game_history")
+}
+
+model CreditTransaction {
+  id          Int           @id @default(autoincrement())
+  action      CreditActions
+  amount      Int
+  description String
+  created_at  DateTime
+
+  user_id Int
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("credit_transactions")
+}
+
+model Contact {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  status      Status
+  answer      String?
+  created_at  DateTime
+  updated_at  DateTime
+
+  user_id         Int
+  contact_type_id Int
+
+  user         User        @relation(fields: [user_id], references: [id])
+  contact_type ContactType @relation(fields: [contact_type_id], references: [id])
+
+  @@map("contacts")
+}
+
+model UserType {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  users User[]
+
+  @@map("user_types")
+}
+
+model Level {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+
+  users      User[]
+  trainings  Training[]
+  strategies Strategy[]
+
+  @@map("levels")
+}
+
+model GameStyle {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+
+  users User[]
+
+  @@map("game_styles")
+}
+
+model HandGrip {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+
+  users User[]
+
+  @@map("hand_grips")
+}
+
+model ContactType {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  contacts Contact[]
+
+  @@map("contact_types")
+}
+
+enum Status {
+  active
+  inactive
+}
+
+enum CreditActions {
+  spend
+  buy
+}
