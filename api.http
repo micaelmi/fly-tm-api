@@ -1,0 +1,30 @@
+### USERS ###
+
+### create user
+POST http://localhost:3333/users/register
+Content-Type: application/json
+
+{
+  "name": "Micael",
+  "username": "micael",
+  "email": "micael@gmail.com",
+  "password": "micael12"
+}
+
+### login
+POST http://localhost:3333/users/login
+Content-Type: application/json
+
+{
+  "credential": "micael",
+  "password": "micael12",
+  "rememberMe": true
+}
+
+### recover account
+POST http://localhost:3333/users/recover-account
+Content-Type: application/json
+
+{
+  "email": "micael@gmail.com",
+}

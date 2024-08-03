@@ -10,8 +10,8 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "bio" TEXT,
     "training_days" INTEGER NOT NULL DEFAULT 0,
@@ -20,11 +20,11 @@ CREATE TABLE "users" (
     "city" TEXT,
     "instagram" TEXT,
     "image_url" TEXT,
-    "level_id" INTEGER NOT NULL,
-    "game_style_id" INTEGER NOT NULL,
-    "club_id" TEXT NOT NULL,
     "user_type_id" INTEGER NOT NULL,
-    "hand_grip_id" INTEGER NOT NULL,
+    "level_id" INTEGER,
+    "game_style_id" INTEGER,
+    "club_id" TEXT,
+    "hand_grip_id" INTEGER,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -36,7 +36,7 @@ CREATE TABLE "tokens" (
     "user_email" TEXT NOT NULL,
     "expiration" TIMESTAMP(3) NOT NULL,
     "status" "Status" NOT NULL DEFAULT 'active',
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "tokens_pkey" PRIMARY KEY ("id")
@@ -48,7 +48,7 @@ CREATE TABLE "trainings" (
     "title" TEXT NOT NULL,
     "time" INTEGER NOT NULL,
     "icon_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "user_id" INTEGER NOT NULL,
     "level_id" INTEGER NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE "strategies" (
     "title" TEXT NOT NULL,
     "how_it_works" TEXT NOT NULL,
     "icon_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "user_id" INTEGER NOT NULL,
     "level_id" INTEGER NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE "clubs" (
     "address_number" INTEGER,
     "complement" TEXT,
     "maps_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "clubs_pkey" PRIMARY KEY ("id")
@@ -154,7 +154,7 @@ CREATE TABLE "events" (
     "image_url" TEXT NOT NULL,
     "price" TEXT NOT NULL,
     "status" "Status" NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "user_id" INTEGER NOT NULL,
 
@@ -181,7 +181,7 @@ CREATE TABLE "game_history" (
     "points_player1" INTEGER NOT NULL,
     "points_player2" INTEGER NOT NULL,
     "game_number" INTEGER NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "match_history_id" TEXT NOT NULL,
 
@@ -207,7 +207,7 @@ CREATE TABLE "contacts" (
     "description" TEXT NOT NULL,
     "status" "Status" NOT NULL,
     "answer" TEXT,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "user_id" INTEGER NOT NULL,
     "contact_type_id" INTEGER NOT NULL,
@@ -265,19 +265,19 @@ CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_level_id_fkey" FOREIGN KEY ("level_id") REFERENCES "levels"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_game_style_id_fkey" FOREIGN KEY ("game_style_id") REFERENCES "game_styles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_club_id_fkey" FOREIGN KEY ("club_id") REFERENCES "clubs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_user_type_id_fkey" FOREIGN KEY ("user_type_id") REFERENCES "user_types"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_hand_grip_id_fkey" FOREIGN KEY ("hand_grip_id") REFERENCES "hand_grips"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_level_id_fkey" FOREIGN KEY ("level_id") REFERENCES "levels"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "users" ADD CONSTRAINT "users_game_style_id_fkey" FOREIGN KEY ("game_style_id") REFERENCES "game_styles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "users" ADD CONSTRAINT "users_club_id_fkey" FOREIGN KEY ("club_id") REFERENCES "clubs"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "users" ADD CONSTRAINT "users_hand_grip_id_fkey" FOREIGN KEY ("hand_grip_id") REFERENCES "hand_grips"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "trainings" ADD CONSTRAINT "trainings_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

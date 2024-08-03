@@ -9,6 +9,9 @@ import {
 } from "fastify-type-provider-zod";
 import { env } from "./env";
 import { errorHandler } from "./error-handler";
+import { registerUser } from "./routes/user/register";
+import { login } from "./routes/user/login";
+import { recoverAccount } from "./routes/user/recover-account";
 
 const app = fastify();
 
@@ -38,7 +41,9 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.setErrorHandler(errorHandler);
 
-// app.register();
+app.register(registerUser);
+app.register(login);
+app.register(recoverAccount);
 
 app.listen({ port: env.PORT }).then(() => {
   console.log("Server flying! 🚀");

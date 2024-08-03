@@ -12,9 +12,9 @@ model User {
   name          String
   username      String   @unique
   email         String   @unique
-  password      String
-  created_at    DateTime
-  updated_at    DateTime
+  password      String   @db.VarChar(255)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
   bio           String?
   training_days Int      @default(0)
   credits       Int      @default(0)
@@ -23,17 +23,17 @@ model User {
   instagram     String?
   image_url     String?
 
-  level_id      Int
-  game_style_id Int
-  club_id       String
   user_type_id  Int
-  hand_grip_id  Int
+  level_id      Int?
+  game_style_id Int?
+  club_id       String?
+  hand_grip_id  Int?
 
-  level      Level     @relation(fields: [level_id], references: [id])
-  game_style GameStyle @relation(fields: [game_style_id], references: [id])
-  club       Club?     @relation(fields: [club_id], references: [id])
-  user_type  UserType  @relation(fields: [user_type_id], references: [id])
-  hand_grip  HandGrip  @relation(fields: [hand_grip_id], references: [id])
+  user_type  UserType   @relation(fields: [user_type_id], references: [id])
+  level      Level?     @relation(fields: [level_id], references: [id])
+  game_style GameStyle? @relation(fields: [game_style_id], references: [id])
+  club       Club?      @relation(fields: [club_id], references: [id])
+  hand_grip  HandGrip?  @relation(fields: [hand_grip_id], references: [id])
 
   trainings           Training[]
   strategies          Strategy[]
@@ -51,8 +51,8 @@ model Token {
   user_email String
   expiration DateTime
   status     Status   @default(active)
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("tokens")
 }
@@ -62,8 +62,8 @@ model Training {
   title      String
   time       Int
   icon_url   String
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   user_id  Int
   level_id Int
@@ -81,8 +81,8 @@ model Strategy {
   title        String
   how_it_works String
   icon_url     String
-  created_at   DateTime
-  updated_at   DateTime
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
   user_id  Int
   level_id Int
@@ -160,8 +160,8 @@ model Club {
   address_number Int?
   complement     String?
   maps_url       String
-  created_at     DateTime
-  updated_at     DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   users User[]
 
@@ -187,8 +187,8 @@ model Event {
   image_url      String
   price          String
   status         Status
-  created_at     DateTime
-  updated_at     DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   user_id Int
 
@@ -219,8 +219,8 @@ model GameHistory {
   points_player1 Int
   points_player2 Int
   game_number    Int
-  created_at     DateTime
-  updated_at     DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   match_history_id String
 
@@ -249,8 +249,8 @@ model Contact {
   description String
   status      Status
   answer      String?
-  created_at  DateTime
-  updated_at  DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   user_id         Int
   contact_type_id Int
