@@ -1,11 +1,11 @@
+import bcrypt from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import jwt from "jsonwebtoken";
 import z from "zod";
+import { env } from "../../env";
 import { ClientError } from "../../errors/client-error";
 import { prisma } from "../../lib/prisma";
-import bcrypt from "bcrypt";
-import { env } from "../../env";
-import jwt from "jsonwebtoken";
 
 export async function login(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -31,6 +31,9 @@ export async function login(app: FastifyInstance) {
       });
 
       if (!user) throw new ClientError("User does not exist");
+
+      if (user.status === "inactive")
+        throw new ClientError("User isn't active yet");
 
       const passwordMatch = await bcrypt.compare(password, user.password);
 

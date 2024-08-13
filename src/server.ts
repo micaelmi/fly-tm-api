@@ -12,6 +12,7 @@ import { errorHandler } from "./error-handler";
 import { registerUser } from "./routes/user/register";
 import { login } from "./routes/user/login";
 import { recoverAccount } from "./routes/user/recover-account";
+import { confirmEmail } from "./routes/user/confirm-email";
 
 const app = fastify();
 
@@ -42,6 +43,7 @@ app.setSerializerCompiler(serializerCompiler);
 app.setErrorHandler(errorHandler);
 
 app.register(registerUser);
+app.register(confirmEmail);
 app.register(login);
 app.register(recoverAccount);
 

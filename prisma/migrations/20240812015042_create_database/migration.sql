@@ -6,7 +6,7 @@ CREATE TYPE "CreditActions" AS ENUM ('spend', 'buy');
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -20,6 +20,7 @@ CREATE TABLE "users" (
     "city" TEXT,
     "instagram" TEXT,
     "image_url" TEXT,
+    "status" "Status" NOT NULL DEFAULT 'inactive',
     "user_type_id" INTEGER NOT NULL,
     "level_id" INTEGER,
     "game_style_id" INTEGER,
@@ -50,7 +51,7 @@ CREATE TABLE "trainings" (
     "icon_url" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
     "level_id" INTEGER NOT NULL,
 
     CONSTRAINT "trainings_pkey" PRIMARY KEY ("id")
@@ -64,7 +65,7 @@ CREATE TABLE "strategies" (
     "icon_url" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
     "level_id" INTEGER NOT NULL,
 
     CONSTRAINT "strategies_pkey" PRIMARY KEY ("id")
@@ -156,7 +157,7 @@ CREATE TABLE "events" (
     "status" "Status" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
@@ -170,7 +171,7 @@ CREATE TABLE "match_history" (
     "date" TIMESTAMP(3) NOT NULL,
     "sets_player1" INTEGER NOT NULL,
     "sets_player2" INTEGER NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
 
     CONSTRAINT "match_history_pkey" PRIMARY KEY ("id")
 );
@@ -195,7 +196,7 @@ CREATE TABLE "credit_transactions" (
     "amount" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
 
     CONSTRAINT "credit_transactions_pkey" PRIMARY KEY ("id")
 );
@@ -209,7 +210,7 @@ CREATE TABLE "contacts" (
     "answer" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "user_id" TEXT NOT NULL,
     "contact_type_id" INTEGER NOT NULL,
 
     CONSTRAINT "contacts_pkey" PRIMARY KEY ("id")

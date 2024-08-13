@@ -62,11 +62,11 @@ export async function recoverAccount(app: FastifyInstance) {
           <h1 style="font-size: 42px; color: #3B82F6">Olá, ${userFirstName}</h1>
           <p style="font-weight: 500">
             Você solicitou uma recuperação de senha para sua conta na plataforma Fly TM,
-            clique no link abaixo para continuar o processo.
+            clique no link abaixo para continuar o processo.'
           </p>
           <div style="width: 100%; background-color: #3B82F6; display: flex; align-items: center; 
           justify-content: center; border-radius: 0.5rem">
-            <a href="${apiBaseUrl}/user/validate-recovery-token?token=${tokenNumber}"
+            <a href="${apiBaseUrl}/users/recover-account/confirm-recovery-token?token=${tokenNumber}&user=${email}"
               style="text-decoration: none; color: #fff; margin: 0.5rem 0"
             >
               Criar nova senha
@@ -76,7 +76,6 @@ export async function recoverAccount(app: FastifyInstance) {
             Caso você não tenha solicitado uma troca de senha, por favor, ignore esse
             e-mail
           </p>
-          <p>Acesse a plataforma: <a href="https://flytm.com.br">flytm.com.br</a></p>
           <div style="margin-top: 1rem; width: 100%; height: 2rem; background-color: #3B82F6"></div>
       </div>`.trim(),
       });
