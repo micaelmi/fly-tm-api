@@ -2,12 +2,11 @@ import bcrypt from "bcrypt";
 import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
-import { env } from "../../env";
 import { ClientError } from "../../errors/client-error";
 import { prisma } from "../../lib/prisma";
 
 export async function changePassword(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get(
+  app.withTypeProvider<ZodTypeProvider>().post(
     "/users/recover-account/change-password",
     {
       schema: {

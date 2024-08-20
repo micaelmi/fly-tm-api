@@ -16,7 +16,7 @@ export async function login(app: FastifyInstance) {
         tags: ["users"],
         body: z.object({
           credential: z.string().min(4),
-          password: z.string().min(8),
+          password: z.string().min(8).max(32),
           rememberMe: z.boolean().default(false),
         }),
       },

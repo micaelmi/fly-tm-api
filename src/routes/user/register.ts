@@ -19,7 +19,7 @@ export async function registerUser(app: FastifyInstance) {
           name: z.string().min(4),
           username: z.string().min(4),
           email: z.string().email(),
-          password: z.string().min(8),
+          password: z.string().min(8).max(32),
         }),
       },
     },
