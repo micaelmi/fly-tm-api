@@ -6,7 +6,7 @@ import { prisma } from "../../lib/prisma";
 
 export async function confirmEmail(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/users/register/confirm-email",
+    "/users/confirm-email",
     {
       schema: {
         summary: "Confirm user email to create account",

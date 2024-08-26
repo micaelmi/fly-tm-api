@@ -10,7 +10,7 @@ import { getMailClient } from "../../lib/mail";
 
 export async function registerUser(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/users/register",
+    "/users",
     {
       schema: {
         summary: "Create user",
