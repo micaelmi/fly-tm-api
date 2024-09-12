@@ -15,7 +15,7 @@ import { recoverAccount } from "./routes/user/recover-account";
 import { confirmEmail } from "./routes/user/confirm-email";
 import { confirmRecoveryToken } from "./routes/user/confirm-recovery-token";
 import { changePassword } from "./routes/user/change-password";
-import { ListAllUsers } from "./routes/user/list";
+import { listAllUsers } from "./routes/user/list";
 
 const app = fastify();
 
@@ -51,7 +51,7 @@ app.register(login);
 app.register(recoverAccount);
 app.register(confirmRecoveryToken);
 app.register(changePassword);
-app.register(ListAllUsers);
+app.register(listAllUsers);
 
 app.listen({ port: env.PORT }).then(() => {
   console.log("Server flying! 🚀");

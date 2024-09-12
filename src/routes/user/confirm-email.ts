@@ -3,6 +3,8 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { ClientError } from "../../errors/client-error";
 import { prisma } from "../../lib/prisma";
+import { dayjs } from "../../lib/dayjs";
+import { env } from "../../env";
 
 export async function confirmEmail(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -16,24 +18,39 @@ export async function confirmEmail(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { user_id } = request.query;
 
-      const existingUser = await prisma.user.findFirst({
-        select: { id: true },
+      const existingUser = await prisma.unconfirmedUser.findFirst({
         where: { id: user_id },
       });
 
       if (!existingUser) throw new ClientError("User does not exist");
 
-      const user = await prisma.user.update({
-        data: {
-          status: "active",
-        },
-        where: { id: user_id },
-      });
+      if (
+        dayjs(existingUser.created_at).isBefore(dayjs().subtract(15, "minute"))
+      ) {
+        await prisma.unconfirmedUser.delete({
+          where: { id: existingUser.id },
+        });
+        throw new ClientError("Register expired");
+      }
 
-      return { userId: user.id };
+      const user = await prisma.user.create({
+        data: {
+          name: existingUser.name,
+          username: existingUser.username,
+          email: existingUser.email,
+          password: existingUser.password,
+          user_type_id: existingUser.user_type_id,
+        },
+      });
+      await prisma.unconfirmedUser.delete({
+        where: { id: existingUser.id },
+      });
+      return reply.redirect(
+        `${env.FRONTEND_BASE_URL}/register/confirm-email?userId=${user.id}&status=confirmed`
+      );
     }
   );
 }

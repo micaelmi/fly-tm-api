@@ -41,13 +41,12 @@ export async function registerUser(app: FastifyInstance) {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = await prisma.user.create({
+      const user = await prisma.unconfirmedUser.create({
         data: {
           name,
           username,
           email,
           password: hashedPassword,
-          user_type_id: 1,
         },
       });
 
@@ -75,7 +74,7 @@ export async function registerUser(app: FastifyInstance) {
           </p>
           <div style="width: 100%; background-color: #3B82F6; display: flex; align-items: center; 
           justify-content: center; border-radius: 0.5rem">
-            <a href="${apiBaseUrl}/users/register/confirm-email?user_id=${user.id}"
+            <a href="${apiBaseUrl}/users/confirm-email?user_id=${user.id}"
               style="text-decoration: none; color: #fff; margin: 0.5rem 0"
             >
               Confirmar

@@ -22,7 +22,7 @@ model User {
   city          String?
   instagram     String?
   image_url     String?
-  status        Status   @default(inactive)
+  status        Status   @default(active)
 
   user_type_id  Int
   level_id      Int?
@@ -44,6 +44,18 @@ model User {
   contacts            Contact[]
 
   @@map("users")
+}
+
+model UnconfirmedUser {
+  id           String   @id @default(uuid())
+  name         String
+  username     String   @unique
+  email        String   @unique
+  password     String   @db.VarChar(255)
+  created_at   DateTime @default(now())
+  user_type_id Int      @default(1)
+
+  @@map("unconfirmed_users")
 }
 
 model Token {
