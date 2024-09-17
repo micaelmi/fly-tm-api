@@ -66,25 +66,24 @@ export async function registerUser(app: FastifyInstance) {
         },
         subject: `Bem-vindo(a) ao Fly TM!`,
         html: `
-        <div style="font-family: sans-serif; max-width: 400px; margin: 2rem auto">
-          <div style="width: 100%; height: 2rem; background-color: #3B82F6"></div>
-          <h1 style="font-size: 42px; color: #3B82F6">Olá, ${userFirstName}</h1>
-          <p style="font-weight: 500">
-            Seja muito bem-vindo(a) ao fly TM, confirme seu e-mail clicando no botão abaixo para finalizar o cadastro
-          </p>
-          <div style="width: 100%; background-color: #3B82F6; display: flex; align-items: center; 
-          justify-content: center; border-radius: 0.5rem">
-            <a href="${apiBaseUrl}/users/confirm-email?user_id=${user.id}"
-              style="text-decoration: none; color: #fff; margin: 0.5rem 0"
-            >
-              Confirmar
-            </a>
+        <div style="font-family: sans-serif; max-width: 400px; margin: 2rem auto; background-color: #161F30; color: #FFFFFF; padding: 1rem; border-radius: 0.5rem">
+          <div style="width: 100%; height: 2rem; background-color: #9EF8EE;"></div>
+            <h1 style="font-size: 42px; color: #9EF8EE;">Olá, ${userFirstName}!</h1>
+            <p style="font-weight: 500; color: #FFFFFF;">
+              Seja muito bem-vindo(a) ao Fly TM! Confirme seu e-mail clicando no botão abaixo para finalizar o cadastro.
+            </p>
+            <div style="width: 100%; background-color: #9EF8EE; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem;">
+              <a href="${apiBaseUrl}/users/confirm-email?user_id=${user.id}"
+                style="text-decoration: none; color: #161F30; margin: 0.5rem 0; font-weight: bold;"
+              >
+                Confirmar
+              </a>
           </div>
-          <p style="font-size: 0.8rem">
+          <p style="font-size: 0.8rem; color: #FFFFFF;">
             Caso você não tenha criado uma conta no Fly TM, por favor, ignore este e-mail.
           </p>
-          <div style="margin-top: 1rem; width: 100%; height: 2rem; background-color: #3B82F6"></div>
-      </div>`.trim(),
+          <div style="margin-top: 1rem; width: 100%; height: 2rem; background-color: #9EF8EE;"></div>
+        </div>`.trim(),
       });
 
       console.log(nodemailer.getTestMessageUrl(message));

@@ -6,7 +6,7 @@ import { ClientError } from "../../errors/client-error";
 import { prisma } from "../../lib/prisma";
 
 export async function changePassword(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().put(
     "/users/recover-account/change-password",
     {
       schema: {

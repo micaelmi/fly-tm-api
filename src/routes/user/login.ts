@@ -15,14 +15,14 @@ export async function login(app: FastifyInstance) {
         summary: "User Login",
         tags: ["users"],
         body: z.object({
-          credential: z.string().min(4),
+          credential: z.string().min(4), // username or password
           password: z.string().min(8).max(32),
-          rememberMe: z.boolean().default(false),
+          // rememberMe: z.boolean().default(true),
         }),
       },
     },
     async (request) => {
-      const { credential, password, rememberMe } = request.body;
+      const { credential, password } = request.body;
 
       const user = await prisma.user.findFirst({
         where: {
@@ -41,13 +41,15 @@ export async function login(app: FastifyInstance) {
 
       const secretJwtKey = env.SECRET_JWT_KEY;
 
-      const expirationTime = rememberMe ? "30d" : "24h";
+      const expirationTime = "30d";
+      // const expirationTime = rememberMe ? "30d" : "24h";
 
       const token = jwt.sign(
         {
           sub: user.id,
           name: user.name,
           type: user.user_type_id,
+          // rememberMe: rememberMe,
         },
         secretJwtKey,
         { expiresIn: expirationTime }

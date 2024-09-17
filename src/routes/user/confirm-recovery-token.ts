@@ -13,22 +13,23 @@ export async function confirmRecoveryToken(app: FastifyInstance) {
         summary: "Confirm token to change password",
         tags: ["users"],
         querystring: z.object({
-          token_number: z.number().int().positive().min(1000).max(9999),
-          user: z.string().email(),
+          token_number: z.string(),
+          email: z.string().email(),
+          id: z.string().uuid(),
         }),
       },
     },
     async (request, reply) => {
-      const { token_number, user } = request.query;
+      const { token_number, email, id } = request.query;
 
       const token = await prisma.token.findFirst({
         where: {
-          number: token_number,
+          number: Number(token_number),
           expiration: {
             gte: new Date(),
           },
           status: "active",
-          user_email: user,
+          user_email: email,
         },
       });
 
@@ -38,10 +39,9 @@ export async function confirmRecoveryToken(app: FastifyInstance) {
         data: { status: "inactive" },
         where: { id: token.id },
       });
-
       // redirect to change password page
       return reply.redirect(
-        `${env.FRONTEND_BASE_URL}/auth/nova-senha?token=${token_number}&email=${user}`
+        `${env.FRONTEND_BASE_URL}/recover-account/change-password?token=${token_number}&id=${id}&email=${email}`
       );
     }
   );
