@@ -9,13 +9,14 @@ import {
 } from "fastify-type-provider-zod";
 import { env } from "./env";
 import { errorHandler } from "./error-handler";
-import { registerUser } from "./routes/user/register";
-import { login } from "./routes/user/login";
-import { recoverAccount } from "./routes/user/recover-account";
-import { confirmEmail } from "./routes/user/confirm-email";
-import { confirmRecoveryToken } from "./routes/user/confirm-recovery-token";
-import { changePassword } from "./routes/user/change-password";
-import { listAllUsers } from "./routes/user/list";
+import { registerUser } from "./routes/users/register";
+import { login } from "./routes/users/login";
+import { recoverAccount } from "./routes/users/recover-account";
+import { confirmEmail } from "./routes/users/confirm-email";
+import { confirmRecoveryToken } from "./routes/users/confirm-recovery-token";
+import { changePassword } from "./routes/users/change-password";
+import { listAllUsers } from "./routes/users/list";
+import { verifyToken } from "./middlewares/verify-token";
 
 const app = fastify();
 
@@ -51,7 +52,12 @@ app.register(login);
 app.register(recoverAccount);
 app.register(confirmRecoveryToken);
 app.register(changePassword);
-app.register(listAllUsers);
+// app.register(listAllUsers);
+
+app.register(async (app) => {
+  app.addHook("preHandler", verifyToken);
+  app.register(listAllUsers);
+});
 
 app.listen({ port: env.PORT }).then(() => {
   console.log("Server flying! 🚀");
