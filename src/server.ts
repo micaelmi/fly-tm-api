@@ -17,6 +17,10 @@ import { confirmRecoveryToken } from "./routes/users/confirm-recovery-token";
 import { changePassword } from "./routes/users/change-password";
 import { listAllUsers } from "./routes/users/list";
 import { verifyToken } from "./middlewares/verify-token";
+import { createEvent } from "./routes/events/create";
+import { listEvents } from "./routes/events/list";
+import { deleteEvent } from "./routes/events/delete";
+import { updateEvent } from "./routes/events/update";
 
 const app = fastify();
 
@@ -46,6 +50,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.setErrorHandler(errorHandler);
 
+// user authentication routes
 app.register(registerUser);
 app.register(confirmEmail);
 app.register(login);
@@ -54,8 +59,15 @@ app.register(confirmRecoveryToken);
 app.register(changePassword);
 // app.register(listAllUsers);
 
+// event routes
+app.register(createEvent);
+app.register(listEvents);
+app.register(deleteEvent);
+app.register(updateEvent);
+
 app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
+  // user authenticated routes
   app.register(listAllUsers);
 });
 
