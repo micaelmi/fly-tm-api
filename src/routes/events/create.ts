@@ -30,9 +30,14 @@ export async function createEvent(app: FastifyInstance) {
           status: z.enum(["active", "inactive"]),
           user_id: z.string().uuid(),
         }),
+        response: {
+          201: z.object({
+            eventId: z.string().uuid(),
+          }),
+        },
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const {
         date,
         description,
@@ -76,7 +81,7 @@ export async function createEvent(app: FastifyInstance) {
           user_id,
         },
       });
-      return { eventId: event.id };
+      return reply.status(201).send({ eventId: event.id });
     }
   );
 }

@@ -19,7 +19,7 @@ export async function recoverAccount(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { email } = request.body;
 
       const user = await prisma.user.findFirst({
@@ -81,7 +81,7 @@ export async function recoverAccount(app: FastifyInstance) {
 
       console.log(nodemailer.getTestMessageUrl(message));
 
-      return { token: token.id };
+      return reply.send({ token: token.id });
     }
   );
 }

@@ -48,9 +48,11 @@ export async function confirmEmail(app: FastifyInstance) {
       await prisma.unconfirmedUser.delete({
         where: { id: existingUser.id },
       });
-      return reply.redirect(
-        `${env.FRONTEND_BASE_URL}/register/confirm-email?userId=${user.id}&status=confirmed`
-      );
+      return reply
+        .status(201)
+        .redirect(
+          `${env.FRONTEND_BASE_URL}/register/confirm-email?userId=${user.id}&status=confirmed`
+        );
     }
   );
 }

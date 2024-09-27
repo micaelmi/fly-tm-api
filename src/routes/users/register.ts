@@ -23,7 +23,7 @@ export async function registerUser(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { name, username, email, password } = request.body;
 
       const existingUsername = await prisma.user.findFirst({
@@ -88,7 +88,7 @@ export async function registerUser(app: FastifyInstance) {
 
       console.log(nodemailer.getTestMessageUrl(message));
 
-      return { userId: user.id };
+      return reply.send({ userId: user.id });
     }
   );
 }

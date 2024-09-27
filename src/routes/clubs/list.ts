@@ -2,18 +2,19 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { prisma } from "../../lib/prisma";
 
-export async function listAllUsers(app: FastifyInstance) {
+export async function listClubs(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/users",
+    "/clubs",
     {
       schema: {
-        summary: "List all the registered users",
-        tags: ["users"],
+        summary: "List all clubs",
+        tags: ["clubs"],
       },
     },
     async (request, reply) => {
-      const users = await prisma.user.findMany();
-      return reply.send({ users: users });
+      const clubs = await prisma.club.findMany();
+
+      return reply.send({ clubs });
     }
   );
 }

@@ -34,7 +34,7 @@ export async function updateEvent(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { eventId } = request.params;
       const {
         date,
@@ -78,7 +78,7 @@ export async function updateEvent(app: FastifyInstance) {
           street,
         },
       });
-      return { eventId: event.id };
+      return reply.send({ eventId: event.id });
     }
   );
 }

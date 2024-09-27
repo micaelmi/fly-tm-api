@@ -21,7 +21,7 @@ export async function login(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { credential, password } = request.body;
 
       const user = await prisma.user.findFirst({
@@ -55,7 +55,7 @@ export async function login(app: FastifyInstance) {
         { expiresIn: expirationTime }
       );
 
-      return { token };
+      return reply.send({ token });
     }
   );
 }

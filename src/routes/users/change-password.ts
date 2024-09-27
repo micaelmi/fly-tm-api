@@ -19,7 +19,7 @@ export async function changePassword(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { email, password, token_number } = request.body;
 
       const user = await prisma.user.findFirst({
@@ -49,7 +49,7 @@ export async function changePassword(app: FastifyInstance) {
 
       if (!updatedUser) throw new Error("Password could not be updated");
 
-      return { userId: updatedUser.id };
+      return reply.send({ userId: updatedUser.id });
     }
   );
 }
