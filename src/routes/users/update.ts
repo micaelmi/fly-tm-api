@@ -1,0 +1,69 @@
+import type { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import z from "zod";
+import { prisma } from "../../lib/prisma";
+
+export async function updateUser(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>().put(
+    "/users/:userId",
+    {
+      schema: {
+        summary: "Update an user",
+        tags: ["users"],
+        params: z.object({
+          userId: z.string().uuid(),
+        }),
+        body: z.object({
+          name: z.string().min(4),
+          email: z.string().email(),
+          bio: z.string().optional(),
+          state: z.string().optional(),
+          city: z.string().optional(),
+          instagram: z.string(),
+          image_url: z.string().optional(),
+          status: z.enum(["active", "inactive"]),
+          level_id: z.number().optional(),
+          game_style_id: z.number().optional(),
+          club_id: z.string().optional(),
+          hand_grip_id: z.number().optional(),
+        }),
+      },
+    },
+    async (request, reply) => {
+      const { userId } = request.params;
+      const {
+        name,
+        email,
+        bio,
+        state,
+        city,
+        instagram,
+        image_url,
+        status,
+        level_id,
+        game_style_id,
+        club_id,
+        hand_grip_id,
+      } = request.body;
+
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          name,
+          email,
+          bio,
+          state,
+          city,
+          instagram,
+          image_url,
+          status,
+          level_id,
+          game_style_id,
+          club_id,
+          hand_grip_id,
+        },
+      });
+      return reply.send({ userId: user.id });
+    }
+  );
+}

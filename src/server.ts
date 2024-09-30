@@ -1,7 +1,7 @@
-import fastify from "fastify";
+import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
-import cors from "@fastify/cors";
+import fastify from "fastify";
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -9,26 +9,28 @@ import {
 } from "fastify-type-provider-zod";
 import { env } from "./env";
 import { errorHandler } from "./error-handler";
-import { registerUser } from "./routes/users/register";
-import { login } from "./routes/users/login";
-import { recoverAccount } from "./routes/users/recover-account";
-import { confirmEmail } from "./routes/users/confirm-email";
-import { confirmRecoveryToken } from "./routes/users/confirm-recovery-token";
-import { changePassword } from "./routes/users/change-password";
-import { listAllUsers } from "./routes/users/list";
 import { verifyToken } from "./middlewares/verify-token";
-import { createEvent } from "./routes/events/create";
-import { listEvents } from "./routes/events/list";
-import { deleteEvent } from "./routes/events/delete";
-import { updateEvent } from "./routes/events/update";
-import { getEventById } from "./routes/events/get-by-id";
-import { getEventsByOwner } from "./routes/events/get-by-owner";
 import { createClub } from "./routes/clubs/create";
-import { listClubs } from "./routes/clubs/list";
 import { deleteClub } from "./routes/clubs/delete";
-import { updateClub } from "./routes/clubs/update";
 import { getClubById } from "./routes/clubs/get-by-id";
 import { getClubsByOwner } from "./routes/clubs/get-by-owner";
+import { listClubs } from "./routes/clubs/list";
+import { updateClub } from "./routes/clubs/update";
+import { createEvent } from "./routes/events/create";
+import { deleteEvent } from "./routes/events/delete";
+import { getEventById } from "./routes/events/get-by-id";
+import { getEventsByOwner } from "./routes/events/get-by-owner";
+import { listEvents } from "./routes/events/list";
+import { updateEvent } from "./routes/events/update";
+import { changePassword } from "./routes/users/change-password";
+import { confirmEmail } from "./routes/users/confirm-email";
+import { confirmRecoveryToken } from "./routes/users/confirm-recovery-token";
+import { listAllUsers } from "./routes/users/list";
+import { login } from "./routes/users/login";
+import { recoverAccount } from "./routes/users/recover-account";
+import { registerUser } from "./routes/users/register";
+import { getUserByUsername } from "./routes/users/get-by-username";
+import { changeUsername } from "./routes/users/change-username";
 
 const app = fastify();
 
@@ -58,7 +60,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.setErrorHandler(errorHandler);
 
-// user authentication routes
+// user public routes
 app.register(registerUser);
 app.register(confirmEmail);
 app.register(login);
@@ -86,6 +88,8 @@ app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
   // user authenticated routes
   app.register(listAllUsers);
+  app.register(getUserByUsername);
+  app.register(changeUsername);
 });
 
 app.listen({ port: env.PORT }).then(() => {

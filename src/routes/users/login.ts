@@ -48,6 +48,7 @@ export async function login(app: FastifyInstance) {
         {
           sub: user.id,
           name: user.name,
+          username: user.username,
           type: user.user_type_id,
           // rememberMe: rememberMe,
         },

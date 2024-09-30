@@ -3,6 +3,13 @@ import { JwtPayload } from "jsonwebtoken";
 
 declare module "fastify" {
   interface FastifyRequest {
-    user: string | JwtPayload; // Ajuste o tipo de acordo com o que você espera em `decoded`
+    user: {
+      sub: string;
+      name: string;
+      username: string;
+      type: number;
+      iat: number;
+      exp: number;
+    };
   }
 }
