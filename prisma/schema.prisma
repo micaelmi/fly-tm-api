@@ -78,11 +78,15 @@ model Training {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user_id  String
-  level_id Int
+  user_id            String
+  level_id           Int
+  visibility_type_id Int // public, private, for the club
+  club_id            String? // if visibility === for the club
 
-  user  User  @relation(fields: [user_id], references: [id])
-  level Level @relation(fields: [level_id], references: [id])
+  user            User           @relation(fields: [user_id], references: [id])
+  level           Level          @relation(fields: [level_id], references: [id])
+  visibility_type VisibilityType @relation(fields: [visibility_type_id], references: [id])
+  club            Club?          @relation(fields: [club_id], references: [id])
 
   training_items TrainingItem[]
 
@@ -97,13 +101,17 @@ model Strategy {
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
-  user_id  String
-  level_id Int
+  user_id            String
+  level_id           Int
+  visibility_type_id Int // public, private, for the club
+  club_id            String?
 
   user  User  @relation(fields: [user_id], references: [id])
   level Level @relation(fields: [level_id], references: [id])
 
-  strategy_items StrategyItem[]
+  strategy_items  StrategyItem[]
+  visibility_type VisibilityType @relation(fields: [visibility_type_id], references: [id])
+  club            Club?          @relation(fields: [club_id], references: [id])
 
   @@map("strategies")
 }
@@ -122,10 +130,10 @@ model StrategyItem {
 }
 
 model TrainingItem {
-  id            Int    @id @default(autoincrement())
-  counting_mode String
+  id            Int          @id @default(autoincrement())
+  counting_mode CountingMode
   reps          Int
-  time          Int
+  time          Int // seconds
   queue         Int
   comments      String
 
@@ -176,7 +184,9 @@ model Club {
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
-  users User[]
+  users      User[]
+  trainings  Training[]
+  strategies Strategy[]
 
   @@map("clubs")
 }
@@ -195,7 +205,6 @@ model Event {
   address_number Int?
   complement     String?
   maps_url       String?
-  level          String
   description    String
   image_url      String
   price          String
@@ -203,9 +212,11 @@ model Event {
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
-  user_id String
+  user_id  String
+  level_id Int
 
-  user User @relation(fields: [user_id], references: [id])
+  user  User  @relation(fields: [user_id], references: [id])
+  level Level @relation(fields: [level_id], references: [id])
 
   @@map("events")
 }
@@ -291,6 +302,7 @@ model Level {
   users      User[]
   trainings  Training[]
   strategies Strategy[]
+  events     Event[]
 
   @@map("levels")
 }
@@ -324,6 +336,16 @@ model ContactType {
   @@map("contact_types")
 }
 
+model VisibilityType {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  trainings  Training[]
+  strategies Strategy[]
+
+  @@map("visibility_types")
+}
+
 enum Status {
   active
   inactive
@@ -332,4 +354,9 @@ enum Status {
 enum CreditActions {
   spend
   buy
+}
+
+enum CountingMode {
+  reps
+  time
 }

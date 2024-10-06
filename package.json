@@ -6,8 +6,8 @@
     "dev": "tsx watch --env-file .env src/server.ts",
     "build": "tsup src --format esm",
     "start": "node dist/server.mjs",
-    "db-migrate": "prisma migrate dev",
-    "db-studio": "prisma studio dev"
+    "migrate": "prisma migrate dev",
+    "studio": "prisma studio"
   },
   "author": "Micael Inácio",
   "description": "API for the Table Tennis Web App Fly TM",

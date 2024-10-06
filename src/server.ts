@@ -31,6 +31,26 @@ import { recoverAccount } from "./routes/users/recover-account";
 import { registerUser } from "./routes/users/register";
 import { getUserByUsername } from "./routes/users/get-by-username";
 import { changeUsername } from "./routes/users/change-username";
+import { getUsersByClub } from "./routes/users/get-users-by-club";
+import { createTraining } from "./routes/trainings/create";
+import { listTrainings } from "./routes/trainings/list";
+import { deleteTraining } from "./routes/trainings/delete";
+import { updateTraining } from "./routes/trainings/update";
+import { getTrainingById } from "./routes/trainings/get-by-id";
+import { getTrainingsByOwner } from "./routes/trainings/get-by-owner";
+import { getTrainingsByClub } from "./routes/trainings/get-by-club";
+import { createStrategy } from "./routes/strategies/create";
+import { listStrategies } from "./routes/strategies/list";
+import { deleteStrategy } from "./routes/strategies/delete";
+import { updateStrategy } from "./routes/strategies/update";
+import { getStrategyById } from "./routes/strategies/get-by-id";
+import { getStrategiesByOwner } from "./routes/strategies/get-by-owner";
+import { getStrategiesByClub } from "./routes/strategies/get-by-club";
+import { createMovement } from "./routes/movements/create";
+import { listMovements } from "./routes/movements/list";
+import { deleteMovement } from "./routes/movements/delete";
+import { updateMovement } from "./routes/movements/update";
+import { getMovementById } from "./routes/movements/get-by-id";
 
 const app = fastify();
 
@@ -84,12 +104,38 @@ app.register(updateClub);
 app.register(getClubById);
 app.register(getClubsByOwner);
 
+// training routes
+app.register(createTraining);
+app.register(listTrainings);
+app.register(deleteTraining);
+app.register(updateTraining);
+app.register(getTrainingById);
+app.register(getTrainingsByOwner);
+app.register(getTrainingsByClub);
+
+// strategy routes
+app.register(createStrategy);
+app.register(listStrategies);
+app.register(deleteStrategy);
+app.register(updateStrategy);
+app.register(getStrategyById);
+app.register(getStrategiesByOwner);
+app.register(getStrategiesByClub);
+
+// Movement routes
+app.register(createMovement);
+app.register(listMovements);
+app.register(deleteMovement);
+app.register(updateMovement);
+app.register(getMovementById);
+
 app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
   // user authenticated routes
   app.register(listAllUsers);
   app.register(getUserByUsername);
   app.register(changeUsername);
+  app.register(getUsersByClub);
 });
 
 app.listen({ port: env.PORT }).then(() => {

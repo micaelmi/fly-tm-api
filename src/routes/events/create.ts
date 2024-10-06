@@ -23,11 +23,11 @@ export async function createEvent(app: FastifyInstance) {
           address_number: z.number().int().optional(),
           complement: z.string().optional(),
           maps_url: z.string().optional(),
-          level: z.string(),
           description: z.string(),
           image_url: z.string().url(),
           price: z.string(),
           status: z.enum(["active", "inactive"]),
+          level_id: z.number(),
           user_id: z.string().uuid(),
         }),
         response: {
@@ -43,7 +43,6 @@ export async function createEvent(app: FastifyInstance) {
         description,
         hide_date,
         image_url,
-        level,
         name,
         price,
         show_date,
@@ -56,6 +55,7 @@ export async function createEvent(app: FastifyInstance) {
         neighborhood,
         state,
         street,
+        level_id,
         user_id,
       } = request.body;
 
@@ -65,7 +65,6 @@ export async function createEvent(app: FastifyInstance) {
           description,
           hide_date,
           image_url,
-          level,
           name,
           price,
           show_date,
@@ -78,6 +77,7 @@ export async function createEvent(app: FastifyInstance) {
           neighborhood,
           state,
           street,
+          level_id,
           user_id,
         },
       });

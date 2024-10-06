@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { prisma } from "../../lib/prisma";
 import z from "zod";
+import { BadRequest } from "../../errors/bad-request";
 
 export async function getClubsByOwner(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -9,7 +10,7 @@ export async function getClubsByOwner(app: FastifyInstance) {
     {
       schema: {
         summary: "Get clubs by owner",
-        tags: ["clubs"],
+        tags: ["clubs", "users"],
         params: z.object({
           owner_username: z.string().min(4),
         }),
@@ -20,6 +21,9 @@ export async function getClubsByOwner(app: FastifyInstance) {
       const clubs = await prisma.club.findMany({
         where: { owner_username },
       });
+
+      if (clubs === null)
+        throw new BadRequest("this user does not own any club");
 
       return reply.send({ clubs });
     }
