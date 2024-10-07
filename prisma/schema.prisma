@@ -270,9 +270,9 @@ model CreditTransaction {
 model Contact {
   id          String   @id @default(uuid())
   title       String
-  description String
-  status      Status
-  answer      String?
+  description String   @db.VarChar(1000)
+  status      Status   @default(active)
+  answer      String?  @db.VarChar(1000)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 

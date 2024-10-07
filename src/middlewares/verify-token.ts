@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { env } from "../env";
 
 const secretKey = env.SECRET_JWT_KEY;
@@ -17,7 +17,18 @@ export const verifyToken = async (
     const token = authorizationHeader.split(" ")[1];
     const decoded = jwt.verify(token, secretKey);
 
-    request.user = decoded;
+    if (typeof decoded === "string") {
+      return reply.status(401).send({ error: "Token inválido" });
+    }
+
+    request.user = decoded as JwtPayload & {
+      sub: string;
+      name: string;
+      username: string;
+      type: number;
+      iat: number;
+      exp: number;
+    };
   } catch (err: any) {
     console.error("Erro na verificação do token:", err.message);
     return reply.status(401).send({ error: "Token inválido" });
