@@ -33,6 +33,7 @@ export async function updateClub(app: FastifyInstance) {
           address_number: z.number().optional(),
           complement: z.string().optional(),
           maps_url: z.string().url(),
+          max_members: z.number(),
         }),
       },
     },
@@ -58,6 +59,7 @@ export async function updateClub(app: FastifyInstance) {
         address_number,
         complement,
         maps_url,
+        max_members,
       } = request.body;
 
       const club = await prisma.club.update({
@@ -82,6 +84,7 @@ export async function updateClub(app: FastifyInstance) {
           address_number,
           complement,
           maps_url,
+          max_members,
         },
       });
       return reply.send({ clubId: club.id });

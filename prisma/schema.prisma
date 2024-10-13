@@ -96,7 +96,7 @@ model Training {
 model Strategy {
   id           String   @id @default(uuid())
   title        String
-  how_it_works String
+  how_it_works String   @db.VarChar(1000)
   icon_url     String
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
@@ -118,12 +118,12 @@ model Strategy {
 
 model StrategyItem {
   id          Int    @id @default(autoincrement())
-  description String
+  description String @db.VarChar(500)
 
   strategy_id String
   movement_id Int
 
-  strategy Strategy @relation(fields: [strategy_id], references: [id])
+  strategy Strategy @relation(fields: [strategy_id], references: [id], onDelete: Cascade)
   movement Movement @relation(fields: [movement_id], references: [id])
 
   @@map("strategy_items")
@@ -135,12 +135,12 @@ model TrainingItem {
   reps          Int
   time          Int // seconds
   queue         Int
-  comments      String
+  comments      String?      @db.VarChar(500)
 
   training_id String
   movement_id Int
 
-  training Training @relation(fields: [training_id], references: [id])
+  training Training @relation(fields: [training_id], references: [id], onDelete: Cascade)
   movement Movement @relation(fields: [movement_id], references: [id])
 
   @@map("training_items")
@@ -149,7 +149,7 @@ model TrainingItem {
 model Movement {
   id           Int    @id @default(autoincrement())
   name         String
-  description  String
+  description  String @db.VarChar(500)
   average_time Int
   video_url    String
   image_url    String
@@ -163,7 +163,7 @@ model Movement {
 model Club {
   id             String   @id @default(uuid())
   name           String
-  description    String
+  description    String   @db.VarChar(500)
   logo_url       String
   background     String
   owner_username String
@@ -181,6 +181,7 @@ model Club {
   address_number Int?
   complement     String?
   maps_url       String
+  max_members    Int      @default(5)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
@@ -205,7 +206,7 @@ model Event {
   address_number Int?
   complement     String?
   maps_url       String?
-  description    String
+  description    String   @db.VarChar(500)
   image_url      String
   price          String
   status         Status
@@ -215,7 +216,7 @@ model Event {
   user_id  String
   level_id Int
 
-  user  User  @relation(fields: [user_id], references: [id])
+  user  User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
   level Level @relation(fields: [level_id], references: [id])
 
   @@map("events")
@@ -248,7 +249,7 @@ model GameHistory {
 
   match_history_id String
 
-  match_history MatchHistory @relation(fields: [match_history_id], references: [id])
+  match_history MatchHistory @relation(fields: [match_history_id], references: [id], onDelete: Cascade)
 
   @@map("game_history")
 }

@@ -15,7 +15,7 @@ export async function listTrainings(app: FastifyInstance) {
       const trainings = await prisma.training.findMany({
         where: {
           visibility_type: {
-            description: "público",
+            description: "Público",
           },
         },
         include: {

@@ -15,7 +15,7 @@ export async function listStrategies(app: FastifyInstance) {
       const strategies = await prisma.strategy.findMany({
         where: {
           visibility_type: {
-            description: "público",
+            description: "Público",
           },
         },
         include: {

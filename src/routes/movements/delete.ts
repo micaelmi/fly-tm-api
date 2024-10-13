@@ -11,7 +11,7 @@ export async function deleteMovement(app: FastifyInstance) {
         summary: "Delete a movement by id",
         tags: ["trainings", "strategies"],
         params: z.object({
-          movementId: z.number(),
+          movementId: z.coerce.number(),
         }),
       },
     },

@@ -30,6 +30,7 @@ export async function createClub(app: FastifyInstance) {
           address_number: z.number().optional(),
           complement: z.string().optional(),
           maps_url: z.string().url(),
+          max_members: z.number().optional(),
         }),
         response: {
           201: z.object({
@@ -59,6 +60,7 @@ export async function createClub(app: FastifyInstance) {
         address_number,
         complement,
         maps_url,
+        max_members,
       } = request.body;
 
       const club = await prisma.club.create({
@@ -82,6 +84,7 @@ export async function createClub(app: FastifyInstance) {
           address_number,
           complement,
           maps_url,
+          max_members,
         },
       });
       return reply.status(201).send({ clubId: club.id });

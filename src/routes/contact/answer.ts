@@ -14,7 +14,7 @@ export async function answerContact(app: FastifyInstance) {
     "/contacts/:contactId",
     {
       schema: {
-        summary: "Create a contact",
+        summary: "Answer a contact",
         tags: ["contacts"],
         params: z.object({
           contactId: z.string().uuid(),

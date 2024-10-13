@@ -11,14 +11,14 @@ export async function updateMovement(app: FastifyInstance) {
         summary: "Update a movement",
         tags: ["trainings", "strategies"],
         params: z.object({
-          movementId: z.number(),
+          movementId: z.coerce.number(),
         }),
         body: z.object({
-          name: z.string(),
-          description: z.string(),
-          average_time: z.number(), // seconds
-          video_url: z.string().url(),
-          image_url: z.string().url(),
+          name: z.string().optional(),
+          description: z.string().optional(),
+          average_time: z.number().optional(), // seconds
+          video_url: z.string().url().optional(),
+          image_url: z.string().url().optional(),
         }),
         response: {
           200: z.object({

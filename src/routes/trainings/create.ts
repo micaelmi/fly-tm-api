@@ -24,7 +24,7 @@ export async function createTraining(app: FastifyInstance) {
               reps: z.number(),
               time: z.number(),
               queue: z.number(),
-              comments: z.string(),
+              comments: z.string().optional(),
               movement_id: z.number(),
             })
           ),

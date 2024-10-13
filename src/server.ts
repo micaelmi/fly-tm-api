@@ -51,6 +51,20 @@ import { listMovements } from "./routes/movements/list";
 import { deleteMovement } from "./routes/movements/delete";
 import { updateMovement } from "./routes/movements/update";
 import { getMovementById } from "./routes/movements/get-by-id";
+import { createContact } from "./routes/contact/create";
+import { listContacts } from "./routes/contact/list";
+import { deleteContact } from "./routes/contact/delete";
+import { answerContact } from "./routes/contact/answer";
+import { getContactsByUser } from "./routes/contact/get-by-user";
+import { getContactsById } from "./routes/contact/get-by-id";
+import { createUserType } from "./routes/user-types/create";
+import { listUserTypes } from "./routes/user-types/list";
+import { deleteUserType } from "./routes/user-types/delete";
+import { updateUserType } from "./routes/user-types/update";
+import { addMemberToClub } from "./routes/clubs/add-member";
+import { leaveClub } from "./routes/clubs/leave-club";
+import { deleteUser } from "./routes/users/delete";
+import { updateUser } from "./routes/users/update";
 
 const app = fastify();
 
@@ -88,54 +102,73 @@ app.register(recoverAccount);
 app.register(confirmRecoveryToken);
 app.register(changePassword);
 
-// event routes
-app.register(createEvent);
-app.register(listEvents);
-app.register(deleteEvent);
-app.register(updateEvent);
-app.register(getEventById);
-app.register(getEventsByOwner);
-
-// club routes
-app.register(createClub);
-app.register(listClubs);
-app.register(deleteClub);
-app.register(updateClub);
-app.register(getClubById);
-app.register(getClubsByOwner);
-
-// training routes
-app.register(createTraining);
-app.register(listTrainings);
-app.register(deleteTraining);
-app.register(updateTraining);
-app.register(getTrainingById);
-app.register(getTrainingsByOwner);
-app.register(getTrainingsByClub);
-
-// strategy routes
-app.register(createStrategy);
-app.register(listStrategies);
-app.register(deleteStrategy);
-app.register(updateStrategy);
-app.register(getStrategyById);
-app.register(getStrategiesByOwner);
-app.register(getStrategiesByClub);
-
-// Movement routes
-app.register(createMovement);
-app.register(listMovements);
-app.register(deleteMovement);
-app.register(updateMovement);
-app.register(getMovementById);
-
 app.register(async (app) => {
   app.addHook("preHandler", verifyToken);
+
   // user authenticated routes
   app.register(listAllUsers);
   app.register(getUserByUsername);
   app.register(changeUsername);
   app.register(getUsersByClub);
+  app.register(updateUser);
+  app.register(deleteUser);
+
+  // event routes
+  app.register(createEvent);
+  app.register(listEvents);
+  app.register(deleteEvent);
+  app.register(updateEvent);
+  app.register(getEventById);
+  app.register(getEventsByOwner);
+
+  // club routes
+  app.register(createClub);
+  app.register(listClubs);
+  app.register(deleteClub);
+  app.register(updateClub);
+  app.register(getClubById);
+  app.register(getClubsByOwner);
+  app.register(addMemberToClub);
+  app.register(leaveClub);
+
+  // training routes
+  app.register(createTraining);
+  app.register(listTrainings);
+  app.register(deleteTraining);
+  app.register(updateTraining);
+  app.register(getTrainingById);
+  app.register(getTrainingsByOwner);
+  app.register(getTrainingsByClub);
+
+  // strategy routes
+  app.register(createStrategy);
+  app.register(listStrategies);
+  app.register(deleteStrategy);
+  app.register(updateStrategy);
+  app.register(getStrategyById);
+  app.register(getStrategiesByOwner);
+  app.register(getStrategiesByClub);
+
+  // Movement routes
+  app.register(createMovement);
+  app.register(listMovements);
+  app.register(deleteMovement);
+  app.register(updateMovement);
+  app.register(getMovementById);
+
+  // Contact routes
+  app.register(createContact);
+  app.register(listContacts);
+  app.register(deleteContact);
+  app.register(answerContact);
+  app.register(getContactsByUser);
+  app.register(getContactsById);
+
+  // user type routes
+  app.register(createUserType);
+  app.register(listUserTypes);
+  app.register(deleteUserType);
+  app.register(updateUserType);
 });
 
 app.listen({ port: env.PORT }).then(() => {

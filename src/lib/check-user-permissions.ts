@@ -1,5 +1,5 @@
 // see if user is admin based on the token user.type and return boolean
-// type admin === 3
+// type Admin === 3
 
 import { FastifyRequest } from "fastify";
 

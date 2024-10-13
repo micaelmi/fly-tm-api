@@ -12,7 +12,7 @@ export async function getMovementById(app: FastifyInstance) {
         summary: "Get movement by id",
         tags: ["trainings", "strategies"],
         params: z.object({
-          movementId: z.number(),
+          movementId: z.coerce.number(),
         }),
       },
     },
