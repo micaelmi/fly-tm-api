@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch --env-file .env src/server.ts",
+    "dev": "npm run database:up & tsx watch --env-file .env src/server.ts",
+    "database:up": "docker compose up -d",
+    "database:stop": "docker compose stop",
+    "database:down": "docker compose down",
     "build": "tsup src --format esm",
     "start": "node dist/server.mjs",
     "migrate": "prisma migrate dev",
