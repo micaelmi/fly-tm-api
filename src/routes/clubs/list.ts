@@ -12,7 +12,17 @@ export async function listClubs(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const clubs = await prisma.club.findMany();
+      const clubs = await prisma.club.findMany({
+        include: {
+          users: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+            },
+          },
+        },
+      });
 
       return reply.send({ clubs });
     }

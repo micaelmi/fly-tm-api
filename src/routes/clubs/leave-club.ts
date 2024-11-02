@@ -8,7 +8,7 @@ import { isAdmin } from "../../lib/check-user-permissions";
 import { ForbiddenError } from "../../errors/forbidden-error";
 
 export async function leaveClub(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().put(
+  app.withTypeProvider<ZodTypeProvider>().get(
     "/clubs/:clubId/leave/:userId",
     {
       schema: {

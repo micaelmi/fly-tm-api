@@ -65,6 +65,20 @@ import { addMemberToClub } from "./routes/clubs/add-member";
 import { leaveClub } from "./routes/clubs/leave-club";
 import { deleteUser } from "./routes/users/delete";
 import { updateUser } from "./routes/users/update";
+import { createMatch } from "./routes/scoreboard/create";
+import { listMatchesByUser } from "./routes/scoreboard/list-by-user";
+import { getMatchById } from "./routes/scoreboard/get-by-id";
+import { deleteMatch } from "./routes/scoreboard/delete";
+import { recordGame } from "./routes/scoreboard/record-game";
+import { updateMatch } from "./routes/scoreboard/update";
+import { createLevel } from "./routes/levels/create";
+import { listLevels } from "./routes/levels/list";
+import { deleteLevel } from "./routes/levels/delete";
+import { updateLevel } from "./routes/levels/update";
+import { createGameStyle } from "./routes/game-styles/create";
+import { listGameStyles } from "./routes/game-styles/list";
+import { deleteGameStyle } from "./routes/game-styles/delete";
+import { updateGameStyle } from "./routes/game-styles/update";
 
 const app = fastify();
 
@@ -164,11 +178,31 @@ app.register(async (app) => {
   app.register(getContactsByUser);
   app.register(getContactsById);
 
+  // scoreboard routes
+  app.register(createMatch);
+  app.register(listMatchesByUser);
+  app.register(getMatchById);
+  app.register(deleteMatch);
+  app.register(recordGame);
+  app.register(updateMatch);
+
   // user type routes
   app.register(createUserType);
   app.register(listUserTypes);
   app.register(deleteUserType);
   app.register(updateUserType);
+
+  // level routes
+  app.register(createLevel);
+  app.register(listLevels);
+  app.register(deleteLevel);
+  app.register(updateLevel);
+
+  // game style routes
+  app.register(createGameStyle);
+  app.register(listGameStyles);
+  app.register(deleteGameStyle);
+  app.register(updateGameStyle);
 });
 
 app.listen({ port: env.PORT }).then(() => {

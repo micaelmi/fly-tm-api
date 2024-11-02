@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "match_history" ALTER COLUMN "date" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "sets_player1" SET DEFAULT 0,
+ALTER COLUMN "sets_player2" SET DEFAULT 0;

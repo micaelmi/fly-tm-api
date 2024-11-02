@@ -39,7 +39,9 @@ export async function addMemberToClub(app: FastifyInstance) {
         },
       });
 
-      if (!club || club.max_members >= club._count.users)
+      if (club) console.log(club.max_members, club._count.users);
+
+      if (!club || club._count.users === club.max_members)
         throw new BadRequest("Club is already full");
 
       const user = await prisma.user.update({

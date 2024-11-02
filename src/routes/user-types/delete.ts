@@ -14,7 +14,7 @@ export async function deleteUserType(app: FastifyInstance) {
         summary: "Delete a user type by id",
         tags: ["auxiliaries", "users"],
         params: z.object({
-          userTypeId: z.number(),
+          userTypeId: z.coerce.number(),
         }),
       },
     },

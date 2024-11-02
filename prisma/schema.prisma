@@ -195,9 +195,8 @@ model Club {
 model Event {
   id             String   @id @default(uuid())
   name           String
-  date           DateTime
-  show_date      DateTime
-  hide_date      DateTime
+  start_date     DateTime
+  end_date       DateTime
   cep            String?
   state          String?
   city           String?
@@ -227,14 +226,14 @@ model MatchHistory {
   player1      String
   player2      String
   better_of    Int
-  date         DateTime
-  sets_player1 Int
-  sets_player2 Int
+  date         DateTime @default(now())
+  sets_player1 Int      @default(0)
+  sets_player2 Int      @default(0)
 
   user_id String
 
-  user        User          @relation(fields: [user_id], references: [id])
-  GameHistory GameHistory[]
+  user          User          @relation(fields: [user_id], references: [id])
+  games_history GameHistory[]
 
   @@map("match_history")
 }

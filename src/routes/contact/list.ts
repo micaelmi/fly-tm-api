@@ -30,7 +30,7 @@ export async function listContacts(app: FastifyInstance) {
             },
           },
         },
-        orderBy: [{ status: "asc", created_at: "desc" }],
+        orderBy: [{ status: "asc" }, { created_at: "desc" }],
       });
 
       return reply.send({ contacts });

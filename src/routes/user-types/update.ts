@@ -13,7 +13,7 @@ export async function updateUserType(app: FastifyInstance) {
         summary: "Update an user type",
         tags: ["auxiliaries", "users"],
         params: z.object({
-          userTypeId: z.number(),
+          userTypeId: z.coerce.number(),
         }),
         body: z.object({
           description: z.string(),
@@ -31,7 +31,7 @@ export async function updateUserType(app: FastifyInstance) {
 
       if (!isAdmin(request)) {
         throw new ForbiddenError(
-          "This user is not allowed to delete user types"
+          "This user is not allowed to update user types"
         );
       }
       const userType = await prisma.userType.update({
