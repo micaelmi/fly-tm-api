@@ -23,7 +23,7 @@ export async function createEvent(app: FastifyInstance) {
           complement: z.string().optional(),
           maps_url: z.string().optional(),
           description: z.string(),
-          image_url: z.string().url(),
+          image_url: z.string(),
           price: z.string(),
           status: z.enum(["active", "inactive"]),
           level_id: z.number(),
