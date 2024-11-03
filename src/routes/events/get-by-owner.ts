@@ -21,6 +21,12 @@ export async function getEventsByOwner(app: FastifyInstance) {
       const events = await prisma.event.findMany({
         where: { user_id: userId },
         include: {
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
           user: {
             select: {
               name: true,

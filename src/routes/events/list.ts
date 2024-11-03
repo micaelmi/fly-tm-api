@@ -15,11 +15,21 @@ export async function listEvents(app: FastifyInstance) {
       const events = await prisma.event.findMany({
         where: {
           status: "active",
-          show_date: {
-            lte: new Date(),
-          },
-          hide_date: {
+          end_date: {
             gte: new Date(),
+          },
+        },
+        include: {
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
+            },
           },
         },
       });
