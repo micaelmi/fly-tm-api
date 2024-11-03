@@ -34,8 +34,6 @@ export async function recordGame(app: FastifyInstance) {
       const match = await prisma.matchHistory.findFirst({
         where: { id: match_history_id },
         select: {
-          sets_player1: true,
-          sets_player2: true,
           user_id: true,
         },
       });
@@ -57,12 +55,20 @@ export async function recordGame(app: FastifyInstance) {
       if (points_player1 > points_player2) {
         await prisma.matchHistory.update({
           where: { id: match_history_id },
-          data: { sets_player1: match.sets_player1 + 1 },
+          data: {
+            sets_player1: {
+              increment: 1,
+            },
+          },
         });
       } else if (points_player2 > points_player1) {
         await prisma.matchHistory.update({
           where: { id: match_history_id },
-          data: { sets_player2: match.sets_player2 + 1 },
+          data: {
+            sets_player2: {
+              increment: 1,
+            },
+          },
         });
       }
 

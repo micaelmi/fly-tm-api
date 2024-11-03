@@ -91,6 +91,8 @@ import { createVisibilityType } from "./routes/visibility-types/create";
 import { listVisibilityTypes } from "./routes/visibility-types/list";
 import { deleteVisibilityType } from "./routes/visibility-types/delete";
 import { updateVisibilityType } from "./routes/visibility-types/update";
+import { moveCredits } from "./routes/credits/movement";
+import { listCreditTransactions } from "./routes/credits/list";
 
 const app = fastify();
 
@@ -233,6 +235,10 @@ app.register(async (app) => {
   app.register(listVisibilityTypes);
   app.register(deleteVisibilityType);
   app.register(updateVisibilityType);
+
+  // credit routes
+  app.register(moveCredits);
+  app.register(listCreditTransactions);
 });
 
 app.listen({ port: env.PORT }).then(() => {
