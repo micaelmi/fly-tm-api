@@ -51,12 +51,12 @@ import { listMovements } from "./routes/movements/list";
 import { deleteMovement } from "./routes/movements/delete";
 import { updateMovement } from "./routes/movements/update";
 import { getMovementById } from "./routes/movements/get-by-id";
-import { createContact } from "./routes/contact/create";
-import { listContacts } from "./routes/contact/list";
-import { deleteContact } from "./routes/contact/delete";
-import { answerContact } from "./routes/contact/answer";
-import { getContactsByUser } from "./routes/contact/get-by-user";
-import { getContactsById } from "./routes/contact/get-by-id";
+import { createContact } from "./routes/contacts/create";
+import { listContacts } from "./routes/contacts/list";
+import { deleteContact } from "./routes/contacts/delete";
+import { answerContact } from "./routes/contacts/answer";
+import { getContactsByUser } from "./routes/contacts/get-by-user";
+import { getContactsById } from "./routes/contacts/get-by-id";
 import { createUserType } from "./routes/user-types/create";
 import { listUserTypes } from "./routes/user-types/list";
 import { deleteUserType } from "./routes/user-types/delete";
@@ -65,12 +65,12 @@ import { addMemberToClub } from "./routes/clubs/add-member";
 import { leaveClub } from "./routes/clubs/leave-club";
 import { deleteUser } from "./routes/users/delete";
 import { updateUser } from "./routes/users/update";
-import { createMatch } from "./routes/scoreboard/create";
-import { listMatchesByUser } from "./routes/scoreboard/list-by-user";
-import { getMatchById } from "./routes/scoreboard/get-by-id";
-import { deleteMatch } from "./routes/scoreboard/delete";
-import { recordGame } from "./routes/scoreboard/record-game";
-import { updateMatch } from "./routes/scoreboard/update";
+import { createMatch } from "./routes/scoreboards/create";
+import { listMatchesByUser } from "./routes/scoreboards/list-by-user";
+import { getMatchById } from "./routes/scoreboards/get-by-id";
+import { deleteMatch } from "./routes/scoreboards/delete";
+import { recordGame } from "./routes/scoreboards/record-game";
+import { updateMatch } from "./routes/scoreboards/update";
 import { createLevel } from "./routes/levels/create";
 import { listLevels } from "./routes/levels/list";
 import { deleteLevel } from "./routes/levels/delete";
@@ -79,6 +79,18 @@ import { createGameStyle } from "./routes/game-styles/create";
 import { listGameStyles } from "./routes/game-styles/list";
 import { deleteGameStyle } from "./routes/game-styles/delete";
 import { updateGameStyle } from "./routes/game-styles/update";
+import { createHandGrip } from "./routes/hand-grips/create";
+import { listHandGrips } from "./routes/hand-grips/list";
+import { deleteHandGrip } from "./routes/hand-grips/delete";
+import { updateHandGrip } from "./routes/hand-grips/update";
+import { createContactType } from "./routes/contact-types/create";
+import { listContactTypes } from "./routes/contact-types/list";
+import { deleteContactType } from "./routes/contact-types/delete";
+import { updateContactType } from "./routes/contact-types/update";
+import { createVisibilityType } from "./routes/visibility-types/create";
+import { listVisibilityTypes } from "./routes/visibility-types/list";
+import { deleteVisibilityType } from "./routes/visibility-types/delete";
+import { updateVisibilityType } from "./routes/visibility-types/update";
 
 const app = fastify();
 
@@ -203,6 +215,24 @@ app.register(async (app) => {
   app.register(listGameStyles);
   app.register(deleteGameStyle);
   app.register(updateGameStyle);
+
+  // hand grip routes
+  app.register(createHandGrip);
+  app.register(listHandGrips);
+  app.register(deleteHandGrip);
+  app.register(updateHandGrip);
+
+  // contact type routes
+  app.register(createContactType);
+  app.register(listContactTypes);
+  app.register(deleteContactType);
+  app.register(updateContactType);
+
+  // visibility type routes
+  app.register(createVisibilityType);
+  app.register(listVisibilityTypes);
+  app.register(deleteVisibilityType);
+  app.register(updateVisibilityType);
 });
 
 app.listen({ port: env.PORT }).then(() => {
