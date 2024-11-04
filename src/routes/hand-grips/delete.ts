@@ -6,38 +6,38 @@ import { ForbiddenError } from "../../errors/forbidden-error";
 import { ClientError } from "../../errors/client-error";
 import { isAdmin } from "../../lib/check-user-permissions";
 
-export async function deleteUserType(app: FastifyInstance) {
+export async function deleteHandGrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/user-types/:userTypeId",
+    "/hand-grips/:handGripId",
     {
       schema: {
-        summary: "Delete a user type by id",
-        tags: ["auxiliaries", "users"],
+        summary: "Delete a hand grip by id",
+        tags: ["auxiliaries"],
         params: z.object({
-          userTypeId: z.coerce.number(),
+          handGripId: z.coerce.number(),
         }),
       },
     },
     async (request, reply) => {
-      const { userTypeId } = request.params;
+      const { handGripId } = request.params;
 
-      const userType = await prisma.userType.findFirst({
-        where: { id: userTypeId },
+      const handGrip = await prisma.handGrip.findFirst({
+        where: { id: handGripId },
       });
 
-      if (!userType) throw new ClientError("user type not found");
+      if (!handGrip) throw new ClientError("hand grip not found");
 
       if (!isAdmin(request)) {
         throw new ForbiddenError(
-          "This user is not allowed to delete user types"
+          "This user is not allowed to delete hand grips"
         );
       }
 
-      const deleted_userType = await prisma.userType.delete({
-        where: { id: userTypeId },
+      const deleted_handGrip = await prisma.handGrip.delete({
+        where: { id: handGripId },
       });
 
-      return reply.send({ userType: deleted_userType });
+      return reply.send({ handGrip: deleted_handGrip });
     }
   );
 }

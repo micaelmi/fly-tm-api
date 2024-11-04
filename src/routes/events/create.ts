@@ -12,9 +12,8 @@ export async function createEvent(app: FastifyInstance) {
         tags: ["events"],
         body: z.object({
           name: z.string().min(4),
-          date: z.string().transform((str) => new Date(str)),
-          show_date: z.string().transform((str) => new Date(str)),
-          hide_date: z.string().transform((str) => new Date(str)),
+          start_date: z.string().transform((str) => new Date(str)),
+          end_date: z.string().transform((str) => new Date(str)),
           cep: z.string().optional(),
           state: z.string().optional(),
           city: z.string().optional(),
@@ -24,7 +23,7 @@ export async function createEvent(app: FastifyInstance) {
           complement: z.string().optional(),
           maps_url: z.string().optional(),
           description: z.string(),
-          image_url: z.string().url(),
+          image_url: z.string(),
           price: z.string(),
           status: z.enum(["active", "inactive"]),
           level_id: z.number(),
@@ -39,13 +38,12 @@ export async function createEvent(app: FastifyInstance) {
     },
     async (request, reply) => {
       const {
-        date,
         description,
-        hide_date,
+        end_date,
         image_url,
         name,
         price,
-        show_date,
+        start_date,
         status,
         address_number,
         cep,
@@ -61,13 +59,12 @@ export async function createEvent(app: FastifyInstance) {
 
       const event = await prisma.event.create({
         data: {
-          date,
           description,
-          hide_date,
+          end_date,
           image_url,
           name,
           price,
-          show_date,
+          start_date,
           status,
           address_number,
           cep,

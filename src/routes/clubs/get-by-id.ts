@@ -20,6 +20,15 @@ export async function getClubById(app: FastifyInstance) {
       const { clubId } = request.params;
       const club = await prisma.club.findFirst({
         where: { id: clubId },
+        include: {
+          users: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+            },
+          },
+        },
       });
       if (club === null) throw new BadRequest("Club not found");
 

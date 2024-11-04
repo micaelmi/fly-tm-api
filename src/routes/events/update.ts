@@ -14,10 +14,15 @@ export async function updateEvent(app: FastifyInstance) {
           eventId: z.string().uuid(),
         }),
         body: z.object({
-          name: z.string().min(4),
-          date: z.string().transform((str) => new Date(str)),
-          show_date: z.string().transform((str) => new Date(str)),
-          hide_date: z.string().transform((str) => new Date(str)),
+          name: z.string().min(4).optional(),
+          start_date: z
+            .string()
+            .transform((str) => new Date(str))
+            .optional(),
+          end_date: z
+            .string()
+            .transform((str) => new Date(str))
+            .optional(),
           cep: z.string().optional(),
           state: z.string().optional(),
           city: z.string().optional(),
@@ -26,25 +31,24 @@ export async function updateEvent(app: FastifyInstance) {
           address_number: z.number().int().optional(),
           complement: z.string().optional(),
           maps_url: z.string().optional(),
-          level_id: z.number(),
-          description: z.string(),
-          image_url: z.string().url(),
-          price: z.string(),
-          status: z.enum(["active", "inactive"]),
+          level_id: z.number().optional(),
+          description: z.string().optional(),
+          image_url: z.string().url().optional(),
+          price: z.string().optional(),
+          status: z.enum(["active", "inactive"]).optional(),
         }),
       },
     },
     async (request, reply) => {
       const { eventId } = request.params;
       const {
-        date,
         description,
-        hide_date,
+        end_date,
         image_url,
         level_id,
         name,
         price,
-        show_date,
+        start_date,
         status,
         address_number,
         cep,
@@ -59,14 +63,13 @@ export async function updateEvent(app: FastifyInstance) {
       const event = await prisma.event.update({
         where: { id: eventId },
         data: {
-          date,
           description,
-          hide_date,
+          end_date,
           image_url,
           level_id,
           name,
           price,
-          show_date,
+          start_date,
           status,
           address_number,
           cep,

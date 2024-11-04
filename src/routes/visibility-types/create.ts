@@ -5,19 +5,19 @@ import { prisma } from "../../lib/prisma";
 import { isAdmin } from "../../lib/check-user-permissions";
 import { ForbiddenError } from "../../errors/forbidden-error";
 
-export async function createUserType(app: FastifyInstance) {
+export async function createVisibilityType(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/user-types",
+    "/visibility-types",
     {
       schema: {
-        summary: "Create an user type",
-        tags: ["auxiliaries", "users"],
+        summary: "Create a visibility type",
+        tags: ["auxiliaries"],
         body: z.object({
           description: z.string(),
         }),
         response: {
           201: z.object({
-            userTypeId: z.number(),
+            visibilityTypeId: z.number(),
           }),
         },
       },
@@ -27,14 +27,14 @@ export async function createUserType(app: FastifyInstance) {
 
       if (!isAdmin(request)) {
         throw new ForbiddenError(
-          "This user is not allowed to create user types"
+          "This user is not allowed to create visibility types"
         );
       }
 
-      const userType = await prisma.userType.create({
+      const visibilityType = await prisma.visibilityType.create({
         data: { description },
       });
-      return reply.status(201).send({ userTypeId: userType.id });
+      return reply.status(201).send({ visibilityTypeId: visibilityType.id });
     }
   );
 }

@@ -24,6 +24,7 @@ export async function getUserByUsername(app: FastifyInstance) {
       const user = await prisma.user.findFirst({
         where: { username, status: "active" },
         select: {
+          id: true,
           name: true,
           username: true,
           email: true,

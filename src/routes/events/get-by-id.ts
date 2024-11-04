@@ -21,7 +21,17 @@ export async function getEventById(app: FastifyInstance) {
       const event = await prisma.event.findFirst({
         where: { id: eventId },
         include: {
-          user: true,
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
+          user: {
+            select: {
+              username: true,
+            },
+          },
         },
       });
       if (event === null) throw new BadRequest("Event not found");

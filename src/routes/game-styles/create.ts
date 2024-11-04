@@ -5,36 +5,37 @@ import { prisma } from "../../lib/prisma";
 import { isAdmin } from "../../lib/check-user-permissions";
 import { ForbiddenError } from "../../errors/forbidden-error";
 
-export async function createUserType(app: FastifyInstance) {
+export async function createGameStyle(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/user-types",
+    "/game-styles",
     {
       schema: {
-        summary: "Create an user type",
-        tags: ["auxiliaries", "users"],
+        summary: "Create a game style",
+        tags: ["auxiliaries"],
         body: z.object({
+          title: z.string(),
           description: z.string(),
         }),
         response: {
           201: z.object({
-            userTypeId: z.number(),
+            gameStyleId: z.number(),
           }),
         },
       },
     },
     async (request, reply) => {
-      const { description } = request.body;
+      const { title, description } = request.body;
 
       if (!isAdmin(request)) {
         throw new ForbiddenError(
-          "This user is not allowed to create user types"
+          "This user is not allowed to create game styles"
         );
       }
 
-      const userType = await prisma.userType.create({
-        data: { description },
+      const gameStyle = await prisma.gameStyle.create({
+        data: { title, description },
       });
-      return reply.status(201).send({ userTypeId: userType.id });
+      return reply.status(201).send({ gameStyleId: gameStyle.id });
     }
   );
 }

@@ -20,6 +20,15 @@ export async function getClubsByOwner(app: FastifyInstance) {
       const { owner_username } = request.params;
       const clubs = await prisma.club.findMany({
         where: { owner_username },
+        include: {
+          users: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+            },
+          },
+        },
       });
 
       if (clubs === null)

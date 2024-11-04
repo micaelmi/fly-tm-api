@@ -5,40 +5,41 @@ import { prisma } from "../../lib/prisma";
 import { isAdmin } from "../../lib/check-user-permissions";
 import { ForbiddenError } from "../../errors/forbidden-error";
 
-export async function updateUserType(app: FastifyInstance) {
+export async function updateHandGrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().put(
-    "/user-types/:userTypeId",
+    "/hand-grips/:handGripId",
     {
       schema: {
-        summary: "Update an user type",
-        tags: ["auxiliaries", "users"],
+        summary: "Update a hand grip",
+        tags: ["auxiliaries"],
         params: z.object({
-          userTypeId: z.coerce.number(),
+          handGripId: z.coerce.number(),
         }),
         body: z.object({
-          description: z.string(),
+          title: z.string().optional(),
+          description: z.string().optional(),
         }),
         response: {
           200: z.object({
-            userTypeId: z.number(),
+            handGripId: z.number(),
           }),
         },
       },
     },
     async (request, reply) => {
-      const { userTypeId } = request.params;
-      const { description } = request.body;
+      const { handGripId } = request.params;
+      const { title, description } = request.body;
 
       if (!isAdmin(request)) {
         throw new ForbiddenError(
-          "This user is not allowed to update user types"
+          "This user is not allowed to update hand grips"
         );
       }
-      const userType = await prisma.userType.update({
-        where: { id: userTypeId },
-        data: { description },
+      const handGrip = await prisma.handGrip.update({
+        where: { id: handGripId },
+        data: { title, description },
       });
-      return reply.send({ userTypeId: userType.id });
+      return reply.send({ handGripId: handGrip.id });
     }
   );
 }
