@@ -1,3 +1,3 @@
-## TRAININGS - Create route
+## STRATEGIES - Create route
 
-- [ ] Adicionar campo 'image_url' dentro de 'item'
+- [ ] Adicionar campo 'against_whom'
