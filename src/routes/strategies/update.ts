@@ -16,6 +16,7 @@ export async function updateStrategy(app: FastifyInstance) {
         body: z.object({
           title: z.string().min(1).optional(),
           how_it_works: z.string().optional(),
+          against_whom: z.string().optional(),
           icon_url: z.string().url().optional(),
           user_id: z.string().uuid().optional(),
           level_id: z.number().optional(),
@@ -43,6 +44,7 @@ export async function updateStrategy(app: FastifyInstance) {
       const {
         title,
         how_it_works,
+        against_whom,
         icon_url,
         user_id,
         level_id,
@@ -56,6 +58,7 @@ export async function updateStrategy(app: FastifyInstance) {
         data: {
           title,
           how_it_works,
+          against_whom,
           icon_url,
           user_id,
           level_id,

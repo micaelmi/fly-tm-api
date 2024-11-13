@@ -97,6 +97,7 @@ model Strategy {
   id           String   @id @default(uuid())
   title        String
   how_it_works String   @db.VarChar(1000)
+  against_whom String   @db.VarChar(500)
   icon_url     String
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
@@ -163,7 +164,7 @@ model Movement {
 model Club {
   id             String   @id @default(uuid())
   name           String
-  description    String   @db.VarChar(500)
+  description    String   @db.VarChar(1500)
   logo_url       String
   background     String
   owner_username String
@@ -180,7 +181,7 @@ model Club {
   street         String
   address_number Int?
   complement     String?
-  maps_url       String
+  maps_url       String?
   max_members    Int      @default(5)
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt

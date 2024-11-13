@@ -21,6 +21,9 @@ export async function listClubs(app: FastifyInstance) {
               username: true,
             },
           },
+          _count: {
+            select: { users: true },
+          },
         },
       });
 

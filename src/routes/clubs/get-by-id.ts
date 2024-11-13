@@ -28,6 +28,9 @@ export async function getClubById(app: FastifyInstance) {
               username: true,
             },
           },
+          _count: {
+            select: { users: true },
+          },
         },
       });
       if (club === null) throw new BadRequest("Club not found");

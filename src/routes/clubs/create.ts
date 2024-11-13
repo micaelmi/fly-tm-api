@@ -18,7 +18,7 @@ export async function createClub(app: FastifyInstance) {
           owner_username: z.string(),
           email: z.string().email(),
           phone: z.string().optional(),
-          instagram: z.string().url().optional(),
+          instagram: z.string().optional(),
           other_contacts: z.string().optional(),
           schedule: z.string(),
           prices: z.string(),

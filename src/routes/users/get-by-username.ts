@@ -18,7 +18,6 @@ export async function getUserByUsername(app: FastifyInstance) {
     },
     async (request, reply) => {
       const request_owner = request.user.username;
-      console.log(request_owner);
 
       const { username } = request.params;
       const user = await prisma.user.findFirst({

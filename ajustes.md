@@ -1,3 +1,3 @@
 ## STRATEGIES - Create route
 
-- [ ] Adicionar campo 'against_whom'
+- [x] Adicionar campo 'against_whom'
