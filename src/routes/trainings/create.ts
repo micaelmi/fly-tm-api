@@ -12,6 +12,7 @@ export async function createTraining(app: FastifyInstance) {
         tags: ["trainings"],
         body: z.object({
           title: z.string().min(1),
+          description: z.string().min(1),
           time: z.number(), // seconds
           icon_url: z.string().url(),
           user_id: z.string().uuid(),
@@ -39,6 +40,7 @@ export async function createTraining(app: FastifyInstance) {
     async (request, reply) => {
       const {
         title,
+        description,
         time,
         icon_url,
         user_id,
@@ -51,6 +53,7 @@ export async function createTraining(app: FastifyInstance) {
       const training = await prisma.training.create({
         data: {
           title,
+          description,
           time,
           icon_url,
           user_id,

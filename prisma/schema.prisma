@@ -71,12 +71,13 @@ model Token {
 }
 
 model Training {
-  id         String   @id @default(uuid())
-  title      String
-  time       Int
-  icon_url   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          String   @id @default(uuid())
+  title       String
+  description String   @db.VarChar(1000)
+  time        Int
+  icon_url    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   user_id            String
   level_id           Int

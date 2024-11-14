@@ -15,6 +15,7 @@ export async function updateTraining(app: FastifyInstance) {
         }),
         body: z.object({
           title: z.string().min(1).optional(),
+          description: z.string().min(1).optional(),
           time: z.number().optional(), // seconds
           icon_url: z.string().url().optional(),
           user_id: z.string().uuid().optional(),
@@ -46,6 +47,7 @@ export async function updateTraining(app: FastifyInstance) {
       const { trainingId } = request.params;
       const {
         title,
+        description,
         time,
         icon_url,
         user_id,
@@ -60,6 +62,7 @@ export async function updateTraining(app: FastifyInstance) {
         where: { id: trainingId },
         data: {
           title,
+          description,
           time,
           icon_url,
           user_id,
