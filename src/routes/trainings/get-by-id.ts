@@ -45,6 +45,12 @@ export async function getTrainingById(app: FastifyInstance) {
               username: true,
             },
           },
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
         },
       });
       if (training === null) throw new BadRequest("training not found");

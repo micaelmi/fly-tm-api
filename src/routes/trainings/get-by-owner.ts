@@ -45,6 +45,12 @@ export async function getTrainingsByOwner(app: FastifyInstance) {
               username: true,
             },
           },
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
         },
       });
 
