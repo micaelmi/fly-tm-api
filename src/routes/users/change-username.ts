@@ -24,19 +24,36 @@ export async function changeUsername(app: FastifyInstance) {
       const { userId } = request.params;
       const { username } = request.body;
 
+      // se existir algum usuário com esse username, não permite
       const existingUser = await prisma.user.findFirst({
         where: { username },
       });
       if (existingUser) throw new ClientError("Username already in use");
 
-      const user = await prisma.user.update({
+      // busca o username anterior do usuário
+      const user = await prisma.user.findFirst({
+        where: { id: userId },
+        select: { username: true },
+      });
+      if (!user) throw new ClientError("User not found");
+
+      // atualiza o username do usuário
+      const updatedUser = await prisma.user.update({
         where: { id: userId },
         data: { username },
       });
 
-      // TODO: kill session
+      // atualiza o username do dono do clube, de acordo com o anterior para o novo
+      await prisma.club.updateMany({
+        data: {
+          owner_username: username,
+        },
+        where: {
+          owner_username: user.username,
+        },
+      });
 
-      return reply.send({ userId: user.id });
+      return reply.send({ userId: updatedUser.id });
     }
   );
 }
