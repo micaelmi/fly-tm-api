@@ -23,6 +23,7 @@ export async function getTrainingById(app: FastifyInstance) {
         include: {
           training_items: {
             select: {
+              id: true,
               comments: true,
               counting_mode: true,
               reps: true,
