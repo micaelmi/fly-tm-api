@@ -39,6 +39,11 @@ export async function getUserByUsername(app: FastifyInstance) {
           game_style: true,
           club: true,
           hand_grip: true,
+          _count: {
+            select: {
+              events: true,
+            },
+          },
 
           credits: request_owner === username,
         },
