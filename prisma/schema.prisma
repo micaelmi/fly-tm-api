@@ -38,7 +38,7 @@ model User {
 
   trainings           Training[]
   strategies          Strategy[]
-  Event               Event[]
+  events              Event[]
   match_history       MatchHistory[]
   credit_transactions CreditTransaction[]
   contacts            Contact[]

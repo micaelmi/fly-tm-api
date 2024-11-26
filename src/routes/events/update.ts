@@ -33,7 +33,7 @@ export async function updateEvent(app: FastifyInstance) {
           maps_url: z.string().optional(),
           level_id: z.number().optional(),
           description: z.string().optional(),
-          image_url: z.string().url().optional(),
+          image_url: z.string().optional(),
           price: z.string().optional(),
           status: z.enum(["active", "inactive"]).optional(),
         }),
