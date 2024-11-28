@@ -41,6 +41,12 @@ export async function getStrategiesByClub(app: FastifyInstance) {
               username: true,
             },
           },
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
         },
       });
       if (strategies === null)

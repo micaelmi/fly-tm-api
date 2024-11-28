@@ -39,6 +39,12 @@ export async function listStrategies(app: FastifyInstance) {
               username: true,
             },
           },
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
         },
       });
 
