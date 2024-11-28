@@ -42,6 +42,7 @@ export async function getUserByUsername(app: FastifyInstance) {
           _count: {
             select: {
               events: true,
+              contacts: true,
             },
           },
 

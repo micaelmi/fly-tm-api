@@ -5,5 +5,5 @@ import { FastifyRequest } from "fastify";
 
 export const isAdmin = (request: FastifyRequest): boolean => {
   const user = request.user;
-  return user?.type === 3;
+  return user?.type === 2;
 };
