@@ -26,6 +26,7 @@ export async function getStrategyById(app: FastifyInstance) {
               description: true,
               movement: {
                 select: {
+                  id: true,
                   average_time: true,
                   description: true,
                   image_url: true,
@@ -39,6 +40,12 @@ export async function getStrategyById(app: FastifyInstance) {
             select: {
               name: true,
               username: true,
+            },
+          },
+          level: {
+            select: {
+              id: true,
+              title: true,
             },
           },
         },

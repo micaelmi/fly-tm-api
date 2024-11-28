@@ -31,6 +31,7 @@ export async function getTrainingById(app: FastifyInstance) {
               queue: true,
               movement: {
                 select: {
+                  id: true,
                   average_time: true,
                   description: true,
                   image_url: true,
