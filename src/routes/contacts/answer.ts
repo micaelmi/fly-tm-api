@@ -44,6 +44,7 @@ export async function answerContact(app: FastifyInstance) {
         data: { answer, status: "inactive" },
         select: {
           id: true,
+          description: true,
           user: {
             select: {
               name: true,
@@ -69,13 +70,18 @@ export async function answerContact(app: FastifyInstance) {
         subject: `Fly TM | Seu contato foi respondido!`,
         html: `
         <div style="font-family: sans-serif; max-width: 400px; margin: 2rem auto; background-color: #161F30; color: #FFFFFF; padding: 1rem; border-radius: 0.5rem">
-          <h1>Olá, ${userFirstName}</h1>
-          <p>Seu contato foi respondido! Entre na plataforma para ver a resposta.</p>
-
-          <a href="https://flytm.com.br" style="text-decoration: none; margin: 1rem 0; font-weight: bold;">
-          Acessar a plataforma
-          </a>
-
+          <div>
+            <h1 style="color: #60a5fa">Olá, ${userFirstName}</h1>
+            <p>Seu contato foi respondido!</p>
+          </div>
+          <div>
+            <p style="color: #60a5fa; font-size: 20px">Sua mensagem:</p>
+            <p style="font-size: 20px">${contact.description}</p>
+          </div>
+          <div>
+            <p style="color: #60a5fa; font-size: 20px">Resposta:</p>
+            <p style="font-size: 20px">${answer}</p>
+          </div>
           <p>A equipe Fly TM agradece seu contato, estamos sempre de portas abertas para você </p>
         </div>`.trim(),
       });
