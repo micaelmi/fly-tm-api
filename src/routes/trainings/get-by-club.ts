@@ -45,6 +45,12 @@ export async function getTrainingsByClub(app: FastifyInstance) {
               username: true,
             },
           },
+          level: {
+            select: {
+              title: true,
+              description: true,
+            },
+          },
         },
       });
       if (trainings === null)
