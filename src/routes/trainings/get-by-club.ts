@@ -56,7 +56,7 @@ export async function getTrainingsByClub(app: FastifyInstance) {
       if (trainings === null)
         throw new BadRequest("this club does not have any trainings");
 
-      return reply.send({ training: trainings });
+      return reply.send({ trainings });
     }
   );
 }
