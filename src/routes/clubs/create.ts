@@ -87,6 +87,12 @@ export async function createClub(app: FastifyInstance) {
           max_members,
         },
       });
+      await prisma.user.update({
+        where: { username: owner_username },
+        data: {
+          club_id: club.id,
+        },
+      });
       return reply.status(201).send({ clubId: club.id });
     }
   );
