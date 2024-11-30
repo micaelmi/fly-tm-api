@@ -1,6 +1,9 @@
 {
   "name": "fly-tm-api",
   "version": "1.0.0",
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "npm run database:up & tsx watch --env-file .env src/server.ts",
@@ -10,7 +13,8 @@
     "build": "tsup src --format esm",
     "start": "node dist/server.mjs",
     "migrate": "prisma migrate dev",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "seed:db": "npx prisma db seed"
   },
   "author": "Micael Inácio",
   "description": "API for the Table Tennis Web App Fly TM",
@@ -26,6 +30,7 @@
     "@types/node": "^20.14.11",
     "@types/nodemailer": "^6.4.15",
     "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
     "tsup": "^8.2.1",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3"
