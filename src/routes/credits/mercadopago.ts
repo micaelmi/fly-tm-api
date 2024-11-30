@@ -4,6 +4,8 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 import { prisma } from "../../lib/prisma";
+import { env } from "../../env";
+import axios from "axios";
 
 export async function createPixPayment(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -49,8 +51,11 @@ export async function createPixPayment(app: FastifyInstance) {
         },
       };
 
+      const idempotencyKey = crypto.randomUUID();
+      const requestOptions = { idempotencyKey: idempotencyKey };
+
       try {
-        const response = await payment.create({ body });
+        const response = await payment.create({ body, requestOptions });
 
         const pix = {
           id: response.id, // ID do pagamento
@@ -73,4 +78,14 @@ export async function createPixPayment(app: FastifyInstance) {
       }
     }
   );
+}
+
+async function getPaymentDetails(paymentId: string) {
+  const url = `https://api.mercadopago.com/v1/payments/${paymentId}`;
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${env.MERCADO_PAGO_ACCESS_TOKEN}`,
+    },
+  });
+  return response.data;
 }
