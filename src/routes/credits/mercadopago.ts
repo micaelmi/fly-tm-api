@@ -15,14 +15,15 @@ export async function createPixPayment(app: FastifyInstance) {
         summary: "Create a PIX payment",
         tags: ["payments"],
         body: z.object({
-          amount: z.number().positive(),
+          credits: z.number().positive(),
+          reais: z.number().positive(),
           description: z.string().min(1),
           user_id: z.string().uuid(),
         }),
       },
     },
     async (request, reply) => {
-      const { amount, description, user_id } = request.body;
+      const { credits, reais, description, user_id } = request.body;
 
       const client = new MercadoPagoConfig({
         accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN || "",
@@ -43,7 +44,7 @@ export async function createPixPayment(app: FastifyInstance) {
       }
 
       const body = {
-        transaction_amount: amount,
+        transaction_amount: reais,
         description,
         payment_method_id: "pix",
         payer: {
@@ -56,6 +57,20 @@ export async function createPixPayment(app: FastifyInstance) {
 
       try {
         const response = await payment.create({ body, requestOptions });
+
+        if (response && response.id) {
+          await prisma.creditTransaction.create({
+            data: {
+              action: "buy",
+              amount: credits,
+              description,
+              user_id,
+              payment_id: response.id.toString(),
+              payment_status: response.status,
+              payment_description: response.description,
+            },
+          });
+        }
 
         const pix = {
           id: response.id, // ID do pagamento
@@ -95,12 +110,39 @@ export async function verifyPixPayment(app: FastifyInstance) {
     async (request, reply) => {
       const { id } = request.params;
       try {
+        const transaction = await prisma.creditTransaction.findFirst({
+          where: {
+            payment_id: id,
+          },
+        });
+
         const url = `https://api.mercadopago.com/v1/payments/${id}`;
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${env.MERCADO_PAGO_ACCESS_TOKEN}`,
           },
         });
+
+        if (response && response.status) {
+          if (
+            transaction?.payment_status === "pending" &&
+            response.data.status === "approved"
+          ) {
+            await prisma.creditTransaction.update({
+              where: { id: transaction.id },
+              data: { payment_status: "approved" },
+            });
+            await prisma.user.update({
+              where: { id: transaction.user_id },
+              data: {
+                credits: {
+                  increment: transaction.amount,
+                },
+              },
+            });
+          }
+        }
+
         return response.data;
       } catch (error) {
         console.error("Erro ao criar pagamento:", error);
