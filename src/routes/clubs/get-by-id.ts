@@ -26,6 +26,7 @@ export async function getClubById(app: FastifyInstance) {
               id: true,
               name: true,
               username: true,
+              image_url: true,
             },
           },
           _count: {
