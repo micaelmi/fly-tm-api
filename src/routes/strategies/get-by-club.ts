@@ -52,7 +52,7 @@ export async function getStrategiesByClub(app: FastifyInstance) {
       if (strategies === null)
         throw new BadRequest("this club does not have any strategies");
 
-      return reply.send({ strategy: strategies });
+      return reply.send({ strategies });
     }
   );
 }

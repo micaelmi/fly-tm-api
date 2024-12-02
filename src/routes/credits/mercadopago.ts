@@ -80,12 +80,32 @@ export async function createPixPayment(app: FastifyInstance) {
   );
 }
 
-async function getPaymentDetails(paymentId: string) {
-  const url = `https://api.mercadopago.com/v1/payments/${paymentId}`;
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${env.MERCADO_PAGO_ACCESS_TOKEN}`,
+export async function verifyPixPayment(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>().get(
+    "/payments/pix/:id",
+    {
+      schema: {
+        summary: "Create a PIX payment",
+        tags: ["payments"],
+        params: z.object({
+          id: z.string(),
+        }),
+      },
     },
-  });
-  return response.data;
+    async (request, reply) => {
+      const { id } = request.params;
+      try {
+        const url = `https://api.mercadopago.com/v1/payments/${id}`;
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${env.MERCADO_PAGO_ACCESS_TOKEN}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error("Erro ao criar pagamento:", error);
+        reply.status(500).send({ error: "Erro ao criar pagamento via PIX" });
+      }
+    }
+  );
 }

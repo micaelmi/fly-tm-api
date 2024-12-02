@@ -93,7 +93,10 @@ import { deleteVisibilityType } from "./routes/visibility-types/delete";
 import { updateVisibilityType } from "./routes/visibility-types/update";
 import { moveCredits } from "./routes/credits/movement";
 import { listCreditTransactions } from "./routes/credits/list";
-import { createPixPayment } from "./routes/credits/mercadopago";
+import {
+  createPixPayment,
+  verifyPixPayment,
+} from "./routes/credits/mercadopago";
 import { getCreditsByUser } from "./routes/credits/get-credits-by-user";
 import { incrementTrainingDays } from "./routes/trainings/increment-training-days";
 
@@ -246,6 +249,7 @@ app.register(async (app) => {
   app.register(getCreditsByUser);
   // mercado pago
   app.register(createPixPayment);
+  app.register(verifyPixPayment);
 });
 
 app.listen({ port: env.PORT }).then(() => {

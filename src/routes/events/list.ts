@@ -12,11 +12,13 @@ export async function listEvents(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       const events = await prisma.event.findMany({
         where: {
           status: "active",
           end_date: {
-            gte: new Date(),
+            gte: today,
           },
         },
         include: {

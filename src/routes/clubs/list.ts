@@ -12,8 +12,7 @@ export async function listClubs(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { club } = request.query as { club?: string }; // Use o nome do parâmetro aqui
-      console.log(club); // Exibe o valor do parâmetro "club" se ele existir
+      const { club } = request.query as { club?: string };
 
       const where: any = {};
       if (club) {
