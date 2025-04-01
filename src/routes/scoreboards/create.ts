@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
 import { prisma } from "../../lib/prisma";
+import { broadcastToRoom } from "../../lib/ws";
 
 export async function createMatch(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -34,6 +35,14 @@ export async function createMatch(app: FastifyInstance) {
           user_id,
         },
       });
+
+      broadcastToRoom(match.id, "match_created", {
+        matchId: match.id,
+        player1,
+        player2,
+        better_of,
+      });
+
       return reply.status(201).send({ matchId: match.id });
     }
   );

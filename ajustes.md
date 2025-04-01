@@ -1,3 +1,4 @@
-## STRATEGIES - Create route
+# Activities
 
-- [x] Adicionar campo 'against_whom'
+- [] module router
+- [] prisma schema modularization
